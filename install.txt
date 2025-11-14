@@ -1,0 +1,17 @@
+1. Recherche utilisateur 
+A. httpd
+ps aux | grep httpd
+
+B.Ou apache
+$ ps aux | grep apache
+
+
+2. Droits:
+$ sudo chown -R daemon:daemon /opt/lampp/htdocs/formation_bamba/
+$ sudo chmod -R 755 /opt/lampp/htdocs/formation_bamba/
+
+3. Restart
+$ sudo /opt/lampp/lampp restart
+
+
+

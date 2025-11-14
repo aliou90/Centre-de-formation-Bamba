@@ -1,0 +1,9 @@
+Travail À Faire 
+// Ajouter user account
+Avec des icones de basculement menu/user 
+pour afficher tous les livres ou livre de user dans le menu 
+
+Au clic de icon user, si non connecté, afficher login form
+
+// menu user 
+affiche en bas de chaque elément le niveau de progression en barre 

@@ -1,0 +1,728 @@
+/* Police arabe */
+@font-face {
+    font-family: 'AlMushafQuran';
+    src: url('../webfonts/AlMushafQuran.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Neirizi';
+    src: url('../webfonts/Neirizi.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'AmiriQuran';
+    src: url('../webfonts/AmiriQuran.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Lateef';
+    src: url('../webfonts/LateefRegular.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+html {
+    overflow-x: hidden; /* ✅ ne coupe pas les fixed */
+}
+
+body {
+    height: 100%;
+    font-family: 'AmiriQuran', sans-serif;
+    background-color: #001f3d;
+    padding: 0;
+    margin: 0;
+    overflow-x: visible; /* ✅ laisse tes fixed sortir si nécessaire */
+}
+
+.page-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    background: #001f3d;
+    z-index: 968;
+    transition: transform 0.3s ease;
+    margin: 0;
+    padding: 10px 15px;   /* ✅ marge gauche/droite */
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* ✅ Masquer quand on scrolle vers le bas */
+.page-header.hide {
+    transform: translateY(-100%);
+}
+
+.page-header img.header-logo {
+    width: 80px;
+    height: 30px;
+    border-radius: 4px;
+    background: white;
+    object-fit: contain;
+    margin-bottom: 0;
+}
+
+.page-header h1 {
+    margin: 0;
+    padding: 0;
+    line-height: 1;
+    color: white;
+    font-size: 1.4rem; /* ✅ taille normale sur desktop */
+}
+
+/* ✅ Adaptation mobile pour éviter que le texte déborde */
+@media (max-width: 480px) {
+    .page-header h1 {
+        font-size: 1rem;    /* ✅ réduit la taille */
+        white-space: nowrap; /* ✅ empêche de passer sur 2 lignes */
+        overflow: hidden;
+        text-overflow: ellipsis; /* ✅ coupe si trop long */
+    }
+}
+
+main#content {
+    padding-top: 80px; /* même hauteur que le header */
+    box-sizing: border-box;
+    padding-bottom: 100px;
+}
+
+/* Bouton Barre de navigation */
+#toggle-book-menu-btn {
+    position: fixed;
+    left: 0px;
+    top: 24px;
+    /* Un peu en bas du header */
+    background: white;
+    padding: 10px;
+    padding-left: 2px;
+    border-bottom-right-radius: 25px;
+    border-top-right-radius: 25px;
+    border-right-color: blue;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 1050;
+}
+
+.user-dropdown-submenu a {
+    display: block;
+    text-decoration: none;
+    color: #000;
+}
+
+.user-dropdown-submenu a:hover {
+    background-color: #f0f0f0;
+}
+
+/*MENU FLOTTANT*/
+/* Menu flottant sans affecter les colonnes */
+#book-list {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 280px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(-100%);
+    transition: all 0.3s ease-in-out;
+    /* Largeur du menu flottant */
+    height: 100%;
+    /* Espace pour le contenu */
+    overflow-y: auto;
+    background-color: #ffffff;
+    border-radius: 15px;
+    border: 5px solid #ffffff;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    padding-bottom: 220px;    
+    z-index: 1000;
+    /* Assure que le menu reste au-dessus des autres éléments */
+}
+
+/* Lorsqu'il est ouvert */
+#book-list.open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+}
+
+#book-list h3 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* 1. user-menu toujours collé en haut */
+#user-menu {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+/* Conteneur du formulaire de recherche */ 
+/* 2. bookSearchForm devient sticky sous le user-menu */
+#bookSearchForm {
+    position: sticky;
+    top: 1px; /* Hauteur du user-menu */
+    z-index: 9;
+    background-color: white;
+    border: 4px solid #ccc;
+    border:#5A5AFF 1px solid;
+    border-radius: 8px;
+}
+
+/* Éléments des listes des livres */
+.list-books .list-group-item {
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+    border-radius: 8px;
+    padding: 12px 16px;
+    padding-bottom: 32px;
+    background-color: #fff;
+    margin-bottom: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+    transform: translateY(0);
+}
+
+.list-books .list-group-item:hover {
+    background-color: #f9f9f9;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.18);
+    transform: translateY(-2px);
+}
+
+/* Controls du livre - boutons */
+.book-badge {
+    display: inline-block;
+    font-size: 0.65rem;
+    padding: 2px 4px;
+    margin-right: 5px;
+    border-radius: 10px;
+    font-weight: 500;
+}
+
+/* Badges interactifs (Suivre / Retirer) */
+.follow-badge {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* ➤ Ombre plus marquée */
+    background-color: #e0f7fa;
+    color: #00796b;
+    border: 1px solid #b2ebf2;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.follow-badge:hover {
+    background-color: #b2ebf2;
+    color: #004d40;
+    transform: translateY(-2px);
+}
+
+.remove-badge {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* ➤ Ombre plus marquée */
+    background-color: #ffecec;
+    color: #c62828;
+    border: 1px solid #ffcdd2;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.remove-badge:hover {
+    background-color: #ffcdd2;
+    color: #b71c1c;
+    transform: translateY(-2px);
+}
+
+/* Badges statiques (En cours / Terminé) */
+.static-badge {
+    cursor: default;
+    user-select: none;
+    border: none;
+}
+
+.in-progress-badge {
+    /* background-color: #e3f2fd; */
+    color: #1565c0;
+}
+
+.finished-badge {
+    /* background-color: #e8f5e9; */
+    color: #2e7d32;
+}
+
+/* Bouton de filtre */
+.bookSearchFilterBtn {
+    padding-left: 20px;
+}
+
+/* BOUTONS FILTRE */
+.filter-tag {
+    background-color: #f8f9fa;
+    border: 1px solid #ccc;
+    color: #333;
+    border-radius: 25px;
+    padding: 2px 4px;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.2s ease;
+    font-size: 0.85rem;
+    display: inline-block;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* ➤ Ombre plus marquée */
+    position: relative;
+    transform: translateY(0);
+}
+
+/* Hover : ombre encore plus prononcée */
+.filter-tag:hover {
+    background-color: #e6eaff;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+}
+
+/* Actif (checkbox cochée) */
+.filter-tag:has(input:checked) {
+    background-color: #5A5AFF;
+    border-color: #5A5AFF;
+    color: #fff;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* ➤ Ombre plus discrète, comme si enfoncé */
+    transform: translateY(2px);
+}
+
+/* Clic momentané : effet rapide de pression */
+.filter-tag:active {
+    transform: translateY(3px);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* Effet de transition pour la recherche */
+.book-item {
+    transition: opacity 0.3s ease;
+}
+li[style*="display: none"] .book-item {
+    opacity: 0;
+}
+li:not([style*="display: none"]) .book-item {
+    opacity: 1;
+}
+
+/* Liste des livres générale et particulier */
+.all-book-list-content, .user-book-list-content {
+    list-style-type: none;
+}
+
+/* En-tête groupe par langue */
+.book-language-header {
+    margin-bottom: 15px; 
+    font-weight: bold; 
+    font-size: 1.3rem; 
+    color: #444;
+    padding: 8px 12px;
+    background-color: #f0f0ff;
+    border-left: 6px solid #5A5AFF;
+    border-radius: 6px;
+}
+
+/* Entête résultat de recherche de livre (style plus discret) */
+.book-result-header {
+    background-color: #f3efe838;
+    border-left: 3px dashed #5A5AFF;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    padding-left: 10px;
+    font-size: 0.9rem;
+    font-style: italic;
+    color: #666;
+}
+
+.book-result-header .not-found-msg {
+    font-style: italic;
+    font-size: 0.95rem;
+    color: #666;
+    margin-bottom: 0.2rem;
+}
+
+/*  Formulaire de connexion/inscription  */
+#auth-tabs {
+    display: flex;
+    justify-content: space-around;
+}
+
+/* Modal floattant dédié à l'affichage des messages */
+#floating-message {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 20px;
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    font-size: 16px;
+    opacity: 0;
+    transition: all 0.5s ease;
+    z-index: 9999;
+    pointer-events: none;
+    max-width: 95%;
+    text-align: center;
+}
+#floating-message.show {
+    opacity: 1;
+    top: 40px;
+}
+
+/* SLIDER */
+/* Section principal contenant le carousel d'affichage des livres */
+#book-content {
+    border: 1px solid white;
+    /* Bordure blanche autour du contenu */
+    border-radius: 20px;
+    /* Bordures arrondies */
+    background-color: #000;
+    /* Fond noir pour le "cadre" comme une télévision */
+    padding: 0;
+    margin-bottom: 50px;
+    /* Espacement interne du cadre */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    /* Ombre portée pour un effet de profondeur */
+    max-width: 1200px;
+    /* Largeur maximale du cadre */
+    margin: 5px auto;
+    /* Centrer le cadre sur la page */
+    overflow: hidden;
+    /* Empêche le débordement de l'intérieur du cadre */
+}
+
+#carouselExample {
+    border-radius: 20px;
+    /* Bordures arrondies pour le carousel */
+    overflow: hidden;
+    /* S'assurer que les images ne dépassent pas */
+}
+
+.carousel-item {
+    max-height: 2800px;
+    background-color: white;
+    /* hauteur fixe souhaitée */
+}
+
+/* Ajustement des images */
+.carousel-item img {
+    width: 100%;
+    /* S'ajuste automatiquement à la largeur */
+    object-fit: contain;
+    /* Recadrage propre */
+    /* border-radius: 20px; */
+}
+
+/* Mode Portrait */
+#carouselExample.portrait-mode .carousel-item img {
+    height: 100vh;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+    margin: auto;
+}
+
+.audio-navigation-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    max-width: 100vw; /* ✅ empêche de dépasser l’écran */
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.4s ease;
+    transform: translateY(calc(100% - 40px)); /* laisse 40px visibles au lieu de 40 */
+    bottom: env(safe-area-inset-bottom, 0);
+}
+
+/* Mode ouvert */
+.audio-navigation-container.open {
+    transform: translateY(0);
+}
+
+/* Bouton flèche */
+.toggle-arrow {
+    position: absolute;
+    top: -25px; /* un peu plus haut */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #000;
+    border: 1px solid #fff;
+    border-radius: 50%;
+    padding: 5px;
+    font-size: 18px;
+    color: #fff;
+    z-index: 10001; /* ✅ plus élevé que tout */
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+    pointer-events: auto;
+}
+
+.waveform-wrapper {
+    width: 100%;
+    max-width: 100%;
+    margin: 2px auto;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    pointer-events: auto;
+    box-sizing: border-box; /* ✅ empêche padding de dépasser */
+}
+
+.waveform-bar-wrapper {
+    position: relative;
+    width: 100%;
+    height: 20px;
+}
+
+#waveform-container {
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    background-color: #e9ecef;
+    overflow: hidden;
+}
+
+.waveform-times {
+    position: absolute;
+    direction: ltr !important;
+    text-align: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: bold;
+    font-size: 0.8rem;
+    color: #070707;
+    background-color: rgba(255, 255, 255, 0.726);
+    padding: 2px 8px;
+    border-radius: 5px;
+
+    pointer-events: none;
+    user-select: none;
+    z-index: 10;
+}
+
+.waveform-controls {
+    margin-top: 10px;
+    gap: 10px;
+}
+
+button.sm-carousel-control-prev,
+button.sm-carousel-control-next {
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Légère transparence */
+    border-radius: 50%;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 20px;
+    color: #fff;
+    /* Boutons de couleur claire */
+}
+
+.waveform-speed select {
+    min-width: 80px;
+}
+
+/* === 💻 Version Desktop (PC, écran large) === */
+@media (min-width: 992px) {
+    .audio-navigation-container {
+        width: 50vw;              /* ✅ moitié de l’écran */
+        left: 50%;                /* ✅ centré horizontalement */
+        transform: translate(-50%, calc(100% - 40px)); /* ✅ conserve l'effet coulissant */
+        border-radius: 10px 10px 0 0; /* ✅ arrondi élégant en haut */
+    }
+
+    .audio-navigation-container.open {
+        transform: translate(-50%, 0); /* ✅ ouverture correcte */
+    }
+
+    .waveform-wrapper {
+        max-width: 100%; /* ✅ ne dépasse pas la moitié */
+        border-radius: 10px; 
+    }
+}
+
+
+/* === 📱 Optimisation mobile (max 768px) === */
+@media (max-width: 768px) {
+    .audio-navigation-container {
+        transform: translateY(calc(100% - 30px)); /* un peu plus visible sur mobile */
+    }
+
+    .toggle-arrow {
+        top: -32px; 
+        font-size: 22px; 
+        padding: 7px;
+    }
+
+    .waveform-wrapper {
+        padding: 6px; /* plus compact */
+        border-radius: 8px;
+    }
+
+    .waveform-controls {
+        gap: 5px; /* réduit l'espace entre les boutons */
+    }
+
+    .waveform-speed select {
+        min-width: 65px;
+        font-size: 0.8rem;
+    }
+
+    button.sm-carousel-control-prev,
+    button.sm-carousel-control-next {
+        font-size: 18px;
+        padding: 7px;
+    }
+
+    /* Ajustement des icônes du menu pour éviter débordement */
+    .waveform-speed button,
+    #chapter-menu-toggle,
+    #page-menu-toggle,
+    #toggle-orientation {
+        width: 45px !important;
+    }
+}
+
+.autoplay-icon {
+    font-size: 1.3rem;
+    display: inline-block;
+    color: rgba(255,255,255,0.5); /* grisé par défaut */
+    position: relative;
+}
+
+/* Barre oblique par défaut (désactivé) */
+.autoplay-icon::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: -10%;
+    width: 120%;
+    height: 2px;
+    background: red;
+    transform: rotate(-25deg);
+    transform-origin: center;
+}
+
+/* Quand checkbox est cochée → icône active (pas de barre, couleur jaune) */
+#autoPlayBtn:checked + .autoplay-icon {
+    color: yellow;
+}
+#autoPlayBtn:checked + .autoplay-icon::after {
+    display: none;
+}
+
+/* SIDEBAR POUR LES PAGES */
+.page-sidebar {
+    position: fixed;
+    top: 0;
+    right: -250px;
+    /* 👉 Change de left à right */
+    height: 100%;
+    width: 250px;
+    background-color: #f8f9fa;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+    /* 👉 Ombre inversée */
+    transition: right 0.3s ease;
+    z-index: 1050;
+    overflow-y: auto;
+    padding-bottom: 220px;
+    /* Espace pour le contenu */
+}
+
+.page-sidebar.open {
+    right: 0;
+    /* 👉 S'affiche en poussant vers la gauche */
+}
+
+.page-sidebar-content ul li {
+    padding: 8px 12px;
+    cursor: pointer;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.page-sidebar-content ul li:hover {
+    background-color: #e2e6ea;
+}
+
+#page-list li.active {
+    background-color: #0d6efd;
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+}
+
+
+.chapter-sidebar {
+    position: fixed;
+    top: 0;
+    right: -250px;
+    /* 👉 Change de left à right */
+    height: 100%;
+    width: 250px;
+    background-color: #f8f9fa;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+    /* 👉 Ombre inversée */
+    transition: right 0.3s ease;
+    z-index: 1050;
+    overflow-y: auto;
+    padding-bottom: 220px;
+    /* Espace pour le contenu */
+}
+
+.chapter-sidebar.open {
+    right: 0;
+    /* 👉 S'affiche en poussant vers la gauche */
+}
+
+.chapter-sidebar-content ul li {
+    padding: 8px 12px;
+    cursor: pointer;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.chapter-sidebar-content ul li:hover {
+    background-color: #e2e6ea;
+}
+
+/* Styles des chapoitres et sous chapitres */
+.chapter-item.level-1 {
+    padding-left: 20px;
+    font-size: 0.95em;
+}
+
+.chapter-item.level-2 {
+    padding-left: 40px;
+    font-size: 0.9em;
+}
+
+.chapter-item.level-3 {
+    padding-left: 60px;
+    font-size: 0.85em;
+}
+
+.chapter-item.level-4 {
+    padding-left: 80px;
+    font-size: 0.8em;
+}
+
+/* etc. */
+
+
+/* Styles du footer */
+.footer {
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 10px;
+    padding-bottom: 70px;
+    text-align: center;
+    border-top: 1px solid #ccc;
+}
