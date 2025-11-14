@@ -1,4 +1,4 @@
-#📘 Bamba Formation
+# 📘 Bamba Formation
 
 Plateforme PWA de formation en ligne — livres numériques en images + audios synchronisés
 Développé en PHP, MySQL/SQLite, JavaScript, Bootstrap
