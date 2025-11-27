@@ -1,0 +1,2 @@
+!NOTE : TRÈS IMPORTANT POUR LE FONCTIONNEMENT APRÈS CLONE DEPUIS GITHUB
+    '---> Renommez le dossier assets/books_sample à assets/books
