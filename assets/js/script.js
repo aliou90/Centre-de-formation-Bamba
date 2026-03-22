@@ -135,6 +135,11 @@ let wavesurfer; // Référence globale à l'instance de WaveSurfer
 let globalTimeInSecForChapter = null; // Variable pour stocker le temps en secondes
 let carouselElement = null;
 let carouselInner = null;
+let hasShownReadThresholdMessage = false;
+let hasTriggeredReadValidationForCurrentPage = false;
+let currentReadValidationThreshold = 15;
+let currentPageOpenedFromMenu = false;
+let triggerProgressionUpdate = null;
 
 function loadBook(bookTitle) {
     // Livre actuel
@@ -391,6 +396,24 @@ function loadBook(bookTitle) {
             .catch(err => console.warn('Progression non mise à jour :', err.message));
     }    
 
+    triggerProgressionUpdate = ({ fromMenu = false } = {}) => {
+        const carouselItems = document.querySelectorAll('.carousel-item');
+        const activeIndex = [...carouselItems].findIndex(item => item.classList.contains('active'));
+        if (activeIndex < 0) return;
+
+        const pageIndex = config.lang === 'ar'
+            ? images.length - 1 - activeIndex
+            : activeIndex;
+
+        updateUserProgression({
+            currentBookTitle: currentBookTitle,
+            pageIndex: pageIndex,
+            images: images,
+            skipProgressionUpdate: skipProgressionUpdate,
+            fromMenu: fromMenu
+        });
+    };
+
     // Afficher les infos de l'auteur, traducteur, etc.
     // document.querySelector('.book-meta').style.border = '#5A5AFF 2px solid'; 
     // document.querySelector('.book-meta').style.marginBottom = "10px";
@@ -549,16 +572,7 @@ function loadBook(bookTitle) {
                     globalTimeInSecForChapter = null; // Réinitialiser le temps après l'initialisation
                 }
 
-                const fromMenu = fromMenuClic === true ? fromMenuClic : false;
-        
-                updateUserProgression({
-                    currentBookTitle: currentBookTitle,              // Titre du livre
-                    pageIndex: pageIndex,                           // index de la page actuelle (commence à 0)
-                    images: images,                                 // tableau d’images/pages
-                    skipProgressionUpdate: skipProgressionUpdate,    // Mettre à jour ou non
-                    fromMenu: fromMenu                              // Clic depuis menu page
-                });            
-
+                currentPageOpenedFromMenu = fromMenuClic === true;
                 fromMenuClic = false; // Réinitialiser
 
             }, 100); // Délai court pour s'assurer que l'élément est dans le DOM
@@ -634,6 +648,9 @@ function loadBook(bookTitle) {
  */
 function initWaveSurfer(audioUrl, chapTimeInSec = null, bookConfig = null) {
     if (wavesurfer) wavesurfer.destroy(); // Détruire l'instance précédente si elle existe
+    hasShownReadThresholdMessage = false;
+    hasTriggeredReadValidationForCurrentPage = false;
+    currentReadValidationThreshold = 15;
 
     const isArabic = bookConfig && bookConfig.lang === 'ar'; // Vérifier si la langue est arabe
 
@@ -703,7 +720,18 @@ function initWaveSurfer(audioUrl, chapTimeInSec = null, bookConfig = null) {
 
     // Événement pour mettre à jour le temps actuel
     wavesurfer.on('audioprocess', () => {
-        document.getElementById('current-time').textContent = formatTime(wavesurfer.getCurrentTime());
+        const currentTime = wavesurfer.getCurrentTime();
+        document.getElementById('current-time').textContent = formatTime(currentTime);
+
+        if (!hasTriggeredReadValidationForCurrentPage && currentTime >= currentReadValidationThreshold) {
+            hasTriggeredReadValidationForCurrentPage = true;
+            hasShownReadThresholdMessage = true;
+            showFloatingMessage(`Lecture valide : seuil atteint a ${Math.round(currentReadValidationThreshold)}s.`, "success");
+
+            if (typeof triggerProgressionUpdate === 'function') {
+                triggerProgressionUpdate({ fromMenu: currentPageOpenedFromMenu });
+            }
+        }
     });
 
     wavesurfer.on('seek', () => {
@@ -712,8 +740,16 @@ function initWaveSurfer(audioUrl, chapTimeInSec = null, bookConfig = null) {
 
     // Synchronisation du temps et vitesse de lecture
     wavesurfer.on('ready', () => {
+        const duration = wavesurfer.getDuration();
+
+        if (duration <= 14) {
+            currentReadValidationThreshold = Math.max(0, duration - 1);
+        } else {
+            currentReadValidationThreshold = 15;
+        }
+
         // Affichage des temps
-        document.getElementById('total-time').textContent = formatTime(wavesurfer.getDuration());
+        document.getElementById('total-time').textContent = formatTime(duration);
 
         // Récupérer la vitesse sélectionnée
         const rate = parseFloat(document.getElementById('playback-rate').value);
