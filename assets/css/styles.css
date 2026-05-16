@@ -40,6 +40,132 @@ body {
     overflow-x: visible; /* ✅ laisse tes fixed sortir si nécessaire */
 }
 
+.footer-content {
+    position: relative;
+}
+
+.footer-settings-link {
+    position: absolute;
+    right: 12px;
+    bottom: 10px;
+    color: rgba(255, 255, 255, 0.35);
+    text-decoration: none;
+    font-size: 1rem;
+    line-height: 1;
+    transition: opacity 0.2s ease, transform 0.2s ease, color 0.2s ease;
+}
+
+.footer-settings-link:hover {
+    color: rgba(255, 255, 255, 0.72);
+    transform: rotate(20deg);
+}
+
+.reading-resume-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(3, 13, 27, 0.58);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    padding: 18px;
+    backdrop-filter: blur(8px);
+}
+
+.reading-resume-modal {
+    position: relative;
+    width: min(420px, calc(100vw - 36px));
+    background: linear-gradient(160deg, rgba(255, 255, 255, 0.97) 0%, rgba(242, 247, 255, 0.95) 100%);
+    color: #102033;
+    border-radius: 22px;
+    padding: 22px 20px 18px;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+    border: 1px solid rgba(90, 90, 255, 0.12);
+    overflow: hidden;
+}
+
+.reading-resume-modal::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at top right, rgba(90, 90, 255, 0.18), transparent 42%);
+    pointer-events: none;
+}
+
+.reading-resume-badge {
+    display: inline-block;
+    margin-bottom: 14px;
+    padding: 5px 10px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #102a56 0%, #5a5aff 100%);
+    color: white;
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    font-weight: 700;
+}
+
+.reading-resume-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    border: none;
+    background: transparent;
+    color: #73809a;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.reading-resume-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.reading-resume-book {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #23395d;
+}
+
+.reading-resume-arabic {
+    margin-top: 6px;
+    color: #45556f;
+    font-size: 0.95rem;
+}
+
+.reading-resume-page {
+    margin-top: 10px;
+    color: #5a5aff;
+    font-weight: 700;
+}
+
+.reading-resume-actions {
+    margin-top: 18px;
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.reading-resume-primary,
+.reading-resume-secondary {
+    border: none;
+    border-radius: 12px;
+    padding: 10px 14px;
+    font-size: 0.92rem;
+    cursor: pointer;
+}
+
+.reading-resume-primary {
+    background: linear-gradient(135deg, #5a5aff 0%, #2f62ff 100%);
+    color: white;
+    box-shadow: 0 10px 24px rgba(47, 98, 255, 0.24);
+}
+
+.reading-resume-secondary {
+    background: rgba(16, 42, 86, 0.08);
+    color: #183153;
+}
+
 .page-header {
     position: fixed;
     top: 0;

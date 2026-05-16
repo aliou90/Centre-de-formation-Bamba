@@ -1,0 +1,239 @@
+/* 
+   STYLES POUR LE SYSTÈME DE CERTIFICATS
+   Bamba Formation
+*/
+
+/* Bouton Télécharger */
+.download-badge {
+    display: inline-block;
+    padding: 2px 6px;
+    background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
+    color: white;
+    border: 1px solid #1f7a31;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 0.65rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    margin-right: 5px;
+    line-height: 1.2;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    appearance: none;
+    font-family: inherit;
+}
+
+.download-badge:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(40, 167, 69, 0.25);
+    background: linear-gradient(135deg, #34c759 0%, #24963d 100%);
+}
+
+.download-badge:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(40, 167, 69, 0.2);
+}
+
+/* Modal des Certificats */
+.certificates-modal-content {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.certificates-modal-header {
+    background: linear-gradient(135deg, #5A5AFF 0%, #3d3d99 100%);
+    border-bottom: 2px solid #5A5AFF;
+}
+
+/* Cartes de certificats */
+.certificate-card {
+    border-left: 4px solid #5A5AFF;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    background: white;
+}
+
+.certificate-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(90, 90, 255, 0.2);
+    border-left-color: #3d3d99;
+}
+
+.certificate-card .card-title {
+    color: #5A5AFF;
+    margin-bottom: 8px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.certificate-card .card-title i {
+    color: #FFD700;
+    font-size: 1.1rem;
+}
+
+.certificate-card .card-text {
+    font-size: 0.9rem;
+    direction: rtl;
+    text-align: right;
+    color: #333;
+    margin: 8px 0;
+    font-weight: 500;
+}
+
+.certificate-card .certificate-id {
+    word-break: break-all;
+    font-family: 'Monaco', 'Courier New', monospace;
+    font-size: 0.75rem;
+    background-color: #f5f5f5;
+    padding: 4px 6px;
+    border-radius: 3px;
+    display: block;
+    margin: 8px 0;
+    color: #555;
+}
+
+.certificate-card .btn-group-certificate {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+}
+
+/* Boutons du modal */
+.certificate-card .btn-outline-primary,
+.certificate-card .btn-outline-success {
+    font-size: 0.85rem;
+    padding: 6px 12px;
+    transition: all 0.2s ease;
+    flex: 1;
+    min-width: 80px;
+}
+
+.certificate-card .btn-outline-primary:hover {
+    background-color: #5A5AFF;
+    border-color: #5A5AFF;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.certificate-card .btn-outline-success:hover {
+    background-color: #28a745;
+    border-color: #28a745;
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* Message d'aucun certificat */
+.certificates-empty {
+    text-align: center;
+    padding: 40px 20px;
+    color: #666;
+}
+
+.certificates-empty i {
+    font-size: 3rem;
+    color: #ccc;
+    display: block;
+    margin-bottom: 16px;
+}
+
+.certificates-empty p {
+    font-size: 1.1rem;
+    margin: 0;
+    color: #888;
+}
+
+.certificates-empty small {
+    color: #bbb;
+}
+
+/* Spinner de chargement */
+.certificate-spinner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+}
+
+.certificate-spinner .spinner-border {
+    color: #5A5AFF;
+    margin-bottom: 16px;
+}
+
+/* Alerte d'erreur */
+.certificate-error-alert {
+    border-left: 4px solid #dc3545;
+    background-color: #fff5f5;
+    color: #721c24;
+}
+
+.certificate-error-alert i {
+    margin-right: 8px;
+    color: #dc3545;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .download-badge {
+        padding: 2px 5px;
+        font-size: 0.62rem;
+    }
+    
+    .certificate-card {
+        margin-bottom: 12px;
+    }
+    
+    .certificate-card .btn-group-certificate {
+        flex-direction: column;
+    }
+    
+    .certificate-card .btn-outline-primary,
+    .certificate-card .btn-outline-success {
+        width: 100%;
+        min-width: 100%;
+    }
+}
+
+/* Animation de fade-in pour les certificats */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.certificate-card {
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* Hover effect pour les badges */
+.book-badge {
+    transition: all 0.2s ease;
+}
+
+.book-badge:hover {
+    transform: scale(1.05);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Amélioration des badges existants */
+.book-badge.follow-badge,
+.book-badge.remove-badge {
+    cursor: pointer;
+}
+
+.book-badge.in-progress-badge,
+.book-badge.finished-badge {
+    cursor: default;
+}
+
+/* Badge de certificat avec icône */
+.book-badge.download-badge i {
+    margin-right: 4px;
+}

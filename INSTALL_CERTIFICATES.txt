@@ -1,0 +1,46 @@
+<?php
+/**
+ * INSTALLATION DES DÉPENDANCES POUR CERTIFICATS
+ * 
+ * Ce fichier d'aide explique comment installer TCPDF pour la génération de PDF
+ * 
+ * Option 1: Installation manuelle avec Composer
+ * ================================================
+ * 1. Installer Composer si ce n'est pas fait
+ * 2. À la racine du projet, exécuter:
+ *    composer require tecnickcom/tcpdf
+ * 
+ * Option 2: Télécharger TCPDF directement
+ * ==========================================
+ * 1. Télécharger: https://tcpdf.org/
+ * 2. Décompresser dans: assets/TCPDF/
+ * 3. S'assurer que le fichier principal est à:
+ *    assets/TCPDF/include/tcpdf.php
+ */
+
+echo "Vérification de l'installation de TCPDF...\n";
+
+// Vérifier les chemins possibles
+$possiblePaths = [
+    'vendor/autoload.php',
+    'vendor/tecnickcom/tcpdf/include/tcpdf.php',
+    'assets/TCPDF/vendor/autoload.php',
+    'assets/TCPDF/include/tcpdf.php'
+];
+
+$found = false;
+foreach ($possiblePaths as $path) {
+    if (file_exists($path)) {
+        echo "✅ TCPDF trouvé à: $path\n";
+        $found = true;
+        break;
+    }
+}
+
+if (!$found) {
+    echo "❌ TCPDF n'est pas trouvé.\n";
+    echo "Installer TCPDF avec Composer:\n";
+    echo "  composer require tecnickcom/tcpdf\n";
+    echo "\nOu télécharger manuellement et placer dans assets/TCPDF/\n";
+}
+?>

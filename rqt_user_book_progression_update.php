@@ -18,6 +18,7 @@ if (!isset($data['title'], $data['page'], $data['progression'])) {
 
 try {
     require_once __DIR__ . '/rqt_db_connect.php';
+    require_once __DIR__ . '/lib_certificate.php';
     
     $user_id = $_SESSION['user']['id'];
     $title = $data['title'];
@@ -65,18 +66,42 @@ try {
         }
     }
 
+    // ===== CRÉATION DU CERTIFICAT À 100% =====
+    $certificateMessage = null;
+    if ($oldProg < 100 && $progression >= 100 && !CertificateManager::hasCertificate($db, $user_id, $title)) {
+        $certResult = CertificateManager::createCertificate($db, $user_id, $title, $progression);
+        if ($certResult['status'] === 'created') {
+            $certificateMessage = [
+                'status' => 'created',
+                'certificate_id' => $certResult['certificate_id'],
+                'message' => '🎓 Certificat créé ! Vous pouvez maintenant le télécharger.'
+            ];
+        }
+    }
+
     if ($maxLevel > 0) {
-        echo json_encode([
+        $response = [
             'status' => 'ok',
             'message' => 'Progression mise à jour (' . $progression . '%) !',
             'congrat' => $congrats[$maxLevel]
-        ]);
+        ];
+        
+        if ($certificateMessage) {
+            $response['certificate'] = $certificateMessage;
+        }
+        
+        echo json_encode($response);
         exit;
     }
 
-
     // Si aucun palier franchi
-    echo json_encode(['status' => 'ok', 'message' => 'Progression mise à jour (' . $progression . '%) !']);
+    $response = ['status' => 'ok', 'message' => 'Progression mise à jour (' . $progression . '%) !'];
+    
+    if ($certificateMessage) {
+        $response['certificate'] = $certificateMessage;
+    }
+    
+    echo json_encode($response);
 
 } catch (Exception $e) {
     echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);

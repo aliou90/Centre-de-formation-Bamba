@@ -140,8 +140,138 @@ let hasTriggeredReadValidationForCurrentPage = false;
 let currentReadValidationThreshold = 15;
 let currentPageOpenedFromMenu = false;
 let triggerProgressionUpdate = null;
+const READING_STATE_KEY = 'bamba_last_reading_state';
+const READING_PROMPT_DISMISSED_KEY = 'bamba_last_reading_prompt_dismissed';
+const APP_DISPLAY_NAME = document.querySelector('.page-header h1')?.textContent?.trim() || document.title || 'Application';
+let readingResumeModal = null;
 
-function loadBook(bookTitle) {
+function getCurrentDisplayedPage() {
+    if (!currentBookTitle || !Array.isArray(images) || !images.length || !config) {
+        return null;
+    }
+
+    const carouselItems = document.querySelectorAll('.carousel-item');
+    const activeIndex = [...carouselItems].findIndex(item => item.classList.contains('active'));
+    if (activeIndex < 0) {
+        return null;
+    }
+
+    return config.lang === 'ar'
+        ? images.length - activeIndex
+        : activeIndex + 1;
+}
+
+function getCurrentReadingState() {
+    const currentPage = getCurrentDisplayedPage();
+    if (!currentBookTitle || !currentPage) {
+        return null;
+    }
+
+    return {
+        bookTitle: currentBookTitle,
+        page: currentPage,
+        savedAt: Date.now()
+    };
+}
+
+function persistCurrentReadingState() {
+    const state = getCurrentReadingState();
+    if (!state) {
+        return;
+    }
+
+    const signature = `${state.bookTitle}::${state.page}`;
+    const lastDismissed = sessionStorage.getItem(READING_PROMPT_DISMISSED_KEY);
+    if (lastDismissed && lastDismissed !== signature) {
+        sessionStorage.removeItem(READING_PROMPT_DISMISSED_KEY);
+    }
+
+    localStorage.setItem(READING_STATE_KEY, JSON.stringify(state));
+}
+
+function readSavedReadingState() {
+    try {
+        const raw = localStorage.getItem(READING_STATE_KEY);
+        if (!raw) return null;
+
+        const parsed = JSON.parse(raw);
+        if (!parsed || !parsed.bookTitle || !parsed.page || !books[parsed.bookTitle]) {
+            return null;
+        }
+
+        return parsed;
+    } catch (error) {
+        console.warn('État de lecture invalide:', error);
+        return null;
+    }
+}
+
+function closeReadingResumeModal() {
+    if (readingResumeModal) {
+        readingResumeModal.remove();
+        readingResumeModal = null;
+    }
+}
+
+function showReadingResumeModal(state) {
+    if (!state || readingResumeModal) {
+        return;
+    }
+
+    const signature = `${state.bookTitle}::${state.page}`;
+    if (sessionStorage.getItem(READING_PROMPT_DISMISSED_KEY) === signature) {
+        return;
+    }
+
+    const bookArabicName = books[state.bookTitle]?.config?.nomArabe || '';
+    const subtitle = bookArabicName
+        ? `<div class="reading-resume-arabic" dir="rtl">${bookArabicName}</div>`
+        : '';
+
+    readingResumeModal = document.createElement('div');
+    readingResumeModal.className = 'reading-resume-overlay';
+    readingResumeModal.innerHTML = `
+        <div class="reading-resume-modal">
+            <div class="reading-resume-badge">${APP_DISPLAY_NAME}</div>
+            <button type="button" class="reading-resume-close" aria-label="Fermer">&times;</button>
+            <div class="reading-resume-title">Continuer votre lecture ?</div>
+            <div class="reading-resume-book">${state.bookTitle}</div>
+            ${subtitle}
+            <div class="reading-resume-page">Page ${state.page}</div>
+            <div class="reading-resume-actions">
+                <button type="button" class="reading-resume-secondary">Plus tard</button>
+                <button type="button" class="reading-resume-primary">Continuer</button>
+            </div>
+        </div>
+    `;
+
+    const closeButton = readingResumeModal.querySelector('.reading-resume-close');
+    const laterButton = readingResumeModal.querySelector('.reading-resume-secondary');
+    const continueButton = readingResumeModal.querySelector('.reading-resume-primary');
+
+    const dismiss = () => {
+        sessionStorage.setItem(READING_PROMPT_DISMISSED_KEY, signature);
+        closeReadingResumeModal();
+    };
+
+    closeButton.addEventListener('click', dismiss);
+    laterButton.addEventListener('click', dismiss);
+    readingResumeModal.addEventListener('click', (event) => {
+        if (event.target === readingResumeModal) {
+            dismiss();
+        }
+    });
+
+    continueButton.addEventListener('click', () => {
+        sessionStorage.removeItem(READING_PROMPT_DISMISSED_KEY);
+        closeReadingResumeModal();
+        loadBook(state.bookTitle, { resumePage: state.page, preferSavedPage: true });
+    });
+
+    document.body.appendChild(readingResumeModal);
+}
+
+function loadBook(bookTitle, options = {}) {
     // Livre actuel
     currentBookTitle = bookTitle; // ✅ Suivi du livre en cours
 
@@ -230,6 +360,13 @@ function loadBook(bookTitle) {
 
     // INSTANCIATION
     getUserBookAndStartIndex(currentBookTitle, images, config).then(({ startIndex, book }) => {
+        if (options.preferSavedPage && Number.isInteger(options.resumePage)) {
+            const boundedPage = Math.max(1, Math.min(images.length, options.resumePage));
+            startIndex = config.lang === 'ar'
+                ? images.length - boundedPage
+                : boundedPage - 1;
+        }
+
         buildCarousel(startIndex);
     });    
 
@@ -256,6 +393,8 @@ function loadBook(bookTitle) {
 
         document.getElementById('pageLabel').textContent =
             `Page ${config.lang === 'ar' ? images.length - startIndex : startIndex + 1}`;
+
+        persistCurrentReadingState();
 
         menuActiveIndex = config.lang === 'ar' ? images.length - startIndex - 1 : startIndex;
 
@@ -385,6 +524,10 @@ function loadBook(bookTitle) {
                                     refreshAllBookList();
                                     if (data.congrat) {
                                         showFloatingMessage(data.congrat, "success");
+                                        // Rafraîchir les boutons de certificats après 1 seconde
+                                        if (typeof updateCertificateButtons === 'function') {
+                                            setTimeout(updateCertificateButtons, 1000);
+                                        }
                                     }
                                 }
                             })
@@ -565,6 +708,7 @@ function loadBook(bookTitle) {
         
                 // Ajouter le numéro de page au Label du l'icône page
                 document.getElementById('pageLabel').textContent = `Page ${pageIndex + 1}`;
+                persistCurrentReadingState();
         
                 // Vérifier si l'audio correspondant existe avant de l'initialiser et de le charger
                 if (matchingAudio) {
@@ -638,6 +782,20 @@ function loadBook(bookTitle) {
     }
 
 }
+
+window.addEventListener('beforeunload', persistCurrentReadingState);
+document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') {
+        persistCurrentReadingState();
+    }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    const savedState = readSavedReadingState();
+    if (savedState) {
+        setTimeout(() => showReadingResumeModal(savedState), 700);
+    }
+});
 
 // Lancement du Lecteur Audio
 /**
@@ -726,7 +884,7 @@ function initWaveSurfer(audioUrl, chapTimeInSec = null, bookConfig = null) {
         if (!hasTriggeredReadValidationForCurrentPage && currentTime >= currentReadValidationThreshold) {
             hasTriggeredReadValidationForCurrentPage = true;
             hasShownReadThresholdMessage = true;
-            showFloatingMessage(`Lecture valide : seuil atteint a ${Math.round(currentReadValidationThreshold)}s.`, "success");
+            // showFloatingMessage(`Lecture valide : seuil atteint a ${Math.round(currentReadValidationThreshold)}s.`, "success");
 
             if (typeof triggerProgressionUpdate === 'function') {
                 triggerProgressionUpdate({ fromMenu: currentPageOpenedFromMenu });
@@ -1438,6 +1596,24 @@ function isValidEmail(email) {
     return emailRegex.test(email);
 }
 
+function getBookControlsMarkup(progression = null) {
+    if (progression === null || progression === undefined) {
+        return `
+            <span class="book-badge follow-badge" title="Suivre ce livre">Suivre</span>
+        `;
+    }
+
+        return `
+            ${
+                progression < 100
+                    ? '<span class="book-badge static-badge in-progress-badge">En cours</span>'
+                    : '<span class="book-badge static-badge finished-badge">Terminé</span>'
+            }
+        <button type="button" class="book-badge download-badge" title="Voir le certificat" style="display:none;" onclick="event.stopPropagation();">Certificat</button>
+        <span class="book-badge remove-badge" title="Retirer ce livre">Retirer</span>
+    `;
+}
+
 // Fonction pour rafraîchir la liste complète des livres sans tout recréer
 function refreshAllBookList() {
     fetch('rqt_user_books_get.php')
@@ -1482,28 +1658,23 @@ function refreshAllBookList() {
                         }
 
                         if (controlGroup) {
-                            controlGroup.innerHTML = `
-                                ${
-                                    bookData.progression < 100
-                                    ? '<span class="book-badge static-badge in-progress-badge">En cours</span>'
-                                    : '<span class="book-badge static-badge finished-badge">Terminé</span>'
-                                }
-                                <span class="book-badge remove-badge" title="Retirer ce livre">Retirer</span>
-                            `;
+                            controlGroup.innerHTML = getBookControlsMarkup(bookData.progression);
                         }
 
                     } else {
                         // Livre non suivi
                         if (progressDiv) progressDiv.remove();
                         if (controlGroup) {
-                            controlGroup.innerHTML = `
-                                <span class="book-badge follow-badge" title="Suivre ce livre">Suivre</span>
-                            `;
+                            controlGroup.innerHTML = getBookControlsMarkup();
                         }
                     }
                 });
 
                 resetFilters(); // Facultatif
+
+                if (typeof window.updateCertificateButtons === 'function') {
+                    setTimeout(() => window.updateCertificateButtons(), 0);
+                }
 
             } else {
                 displayBooksWithoutControls();
@@ -1618,13 +1789,7 @@ function showUserBookList() {
                         listItemControlDiv.style.position = 'absolute';
                         listItemControlDiv.style.bottom = '5px';
                         listItemControlDiv.style.left = '15px';
-                        listItemControlDiv.innerHTML = `
-                            ${book.progression < 100
-                                ? '<span class="book-badge static-badge in-progress-badge">En cours</span>'
-                                : '<span class="book-badge static-badge finished-badge">Terminé</span>'
-                            }
-                            <span class="book-badge remove-badge" title="Retirer ce livre">Retirer</span>
-                        `;
+                        listItemControlDiv.innerHTML = getBookControlsMarkup(book.progression);
                         listItem.appendChild(listItemControlDiv);
                         listContainer.appendChild(listItem);
                     });
@@ -1636,6 +1801,10 @@ function showUserBookList() {
 
                 highlightText();
                 resetFilters();
+
+                if (typeof window.updateCertificateButtons === 'function') {
+                    setTimeout(() => window.updateCertificateButtons(), 0);
+                }
 
             } else {
                 document.querySelector('.user-book-list-content').innerHTML = `
@@ -1693,8 +1862,7 @@ function addBookToUserSelection(listItem) {
 
                 // Mettre à jour les badges
                 controlGroup.innerHTML = `
-                    <span class="book-badge static-badge in-progress-badge">En cours</span>
-                    <span class="book-badge remove-badge" title="Retirer ce livre">Retirer</span>
+                    ${getBookControlsMarkup(0)}
                 `;
             }
 
@@ -1728,7 +1896,7 @@ function deleteBookFromUserSelection(listItem) {
 
             const controlGroup = listItem.querySelector('.book-control-group');
             if (controlGroup) {
-                controlGroup.innerHTML = `<span class="book-badge follow-badge" title="Suivre ce livre">Suivre</span>`;
+                controlGroup.innerHTML = getBookControlsMarkup();
             }
 
             showFloatingMessage("Livre retiré avec succès !", 'success');

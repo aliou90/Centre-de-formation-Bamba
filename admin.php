@@ -2,6 +2,112 @@
 session_start();
 define('APP_NAME', 'Plateforme de Formation Bamba');
 define('BASE_URL', 'http://localhost/formation_bamba/');
+$adminPassword = '#Radmin';
+
+if (isset($_GET['logout'])) {
+    unset($_SESSION['admin_authenticated']);
+    header('Location: admin.php');
+    exit;
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['admin_password'])) {
+    if (hash_equals($adminPassword, (string) $_POST['admin_password'])) {
+        $_SESSION['admin_authenticated'] = true;
+        header('Location: admin.php');
+        exit;
+    }
+
+    $adminAuthError = 'Mot de passe incorrect.';
+}
+
+if (empty($_SESSION['admin_authenticated'])):
+?>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accès Admin</title>
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            background: linear-gradient(135deg, #0d1b2a 0%, #1b263b 100%);
+            font-family: sans-serif;
+            color: #102033;
+        }
+
+        .admin-lock-card {
+            width: min(420px, calc(100vw - 32px));
+            background: rgba(255, 255, 255, 0.96);
+            border-radius: 14px;
+            padding: 28px 24px;
+            box-shadow: 0 18px 45px rgba(0, 0, 0, 0.22);
+        }
+
+        .admin-lock-card h1 {
+            margin: 0 0 10px;
+            font-size: 1.35rem;
+        }
+
+        .admin-lock-card p {
+            margin: 0 0 18px;
+            color: #4b5563;
+        }
+
+        .admin-lock-card label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .admin-lock-card input {
+            width: 100%;
+            box-sizing: border-box;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            padding: 12px 14px;
+            font-size: 1rem;
+            margin-bottom: 14px;
+        }
+
+        .admin-lock-card button {
+            width: 100%;
+            border: none;
+            border-radius: 10px;
+            background: #1d4ed8;
+            color: white;
+            padding: 12px 14px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .admin-lock-error {
+            margin-bottom: 12px;
+            color: #b91c1c;
+            font-size: 0.95rem;
+        }
+    </style>
+</head>
+<body>
+    <form class="admin-lock-card" method="post" action="admin.php">
+        <h1>Accès Administration</h1>
+        <p>Entrez le mot de passe pour ouvrir `admin.php`.</p>
+        <?php if (!empty($adminAuthError)): ?>
+            <div class="admin-lock-error"><?= htmlspecialchars($adminAuthError) ?></div>
+        <?php endif; ?>
+        <label for="admin_password">Mot de passe</label>
+        <input type="password" id="admin_password" name="admin_password" required autofocus>
+        <button type="submit">Entrer</button>
+    </form>
+</body>
+</html>
+<?php
+exit;
+endif;
+
 $bookDir = __DIR__.'/assets/books/';
 $books = [];
 
@@ -166,6 +272,7 @@ if (!empty($_GET['selected_book'])) {
 <body>
 
 <h2>📚 Interface d'administration des livres</h2>
+<p><a href="admin.php?logout=1">Se déconnecter</a></p>
 
 <!-- Formulaire de création d'un nouveau livre -->
 <!-- Formulaire de création d'un nouveau livre -->
@@ -880,4 +987,3 @@ function adjustSearchDirection(input) {
 </script>
 </body>
 </html>
-

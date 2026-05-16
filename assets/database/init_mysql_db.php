@@ -1,6 +1,6 @@
 <?php
 // Paramètres de connexion MySQL / MariaDB
-$host = 'localhost';                // ou 127.0.0.1
+$host = '127.0.0.1';                // ou 127.0.0.1
 $dbname = 'bamba_formation_db';        // nom de ta base
 $username = 'root';                 // à adapter selon ton serveur
 $password = '';                     // idem
@@ -38,6 +38,21 @@ try {
             last_page INT DEFAULT 1,
             start_date DATETIME NULL,
             FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+        ) ENGINE=InnoDB;
+    ");
+
+    // --- TABLE certificates ---
+    $pdo->exec("
+        CREATE TABLE IF NOT EXISTS certificates (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            user_id INT NOT NULL,
+            book_title VARCHAR(255) NOT NULL,
+            certificate_id VARCHAR(50) NOT NULL UNIQUE,
+            completion_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+            progression INT DEFAULT 100,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+            UNIQUE KEY unique_cert (user_id, book_title)
         ) ENGINE=InnoDB;
     ");
 

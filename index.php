@@ -42,6 +42,9 @@ define('BASE_URL', 'http://localhost/formation_bamba/');
     <!-- STYLES PERSONNALISÉS -->
     <link rel="stylesheet" href="assets/css/styles.css">
 
+    <!-- STYLES DES CERTIFICATS -->
+    <link rel="stylesheet" href="assets/css/certificates-styles.css">
+
     <!-- FICHIER MANIFEST POUR PWA -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#000000">
@@ -195,6 +198,7 @@ define('BASE_URL', 'http://localhost/formation_bamba/');
                                         <span class="book-badge follow-badge" title="Suivre ce livre">Suivre</span>
                                         <span class="book-badge static-badge in-progress-badge">En cours</span>
                                         <span class="book-badge static-badge finished-badge">Terminé</span>
+                                        <button type="button" class="book-badge download-badge" title="Voir le certificat" style="display:none;" onclick="event.stopPropagation();">Certificat</button>
                                         <span class="book-badge remove-badge" title="Retirer ce livre">Retirer</span>
                                     </div>
                                 </li>
@@ -225,9 +229,9 @@ define('BASE_URL', 'http://localhost/formation_bamba/');
                         <p id="profile-phone" class="mb-1"><strong>Téléphone:</strong> <span id="profile-phone">+123456789</span></p>
                     </div>
 
-                    <div class="d-flex justify-content-center mt-3">
-                        <a href="#" id="edit-profile-btn" class="btn btn-outline-primary me-2">Modifier mon compte</a>
-                        <a href="#" id="view-badges-btn" class="btn btn-outline-success">Voir mes Badges</a>
+                    <div class="d-flex justify-content-center mt-3" style="flex-wrap: wrap; gap: 10px;">
+                        <a href="#" id="edit-profile-btn" class="btn btn-outline-primary">Modifier mon compte</a>
+                        <button id="view-badges-btn" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#certificates-modal">🏆 Mes Certificats</button>
                     </div>
                 </div>
             </div>
@@ -383,6 +387,38 @@ define('BASE_URL', 'http://localhost/formation_bamba/');
     </div>
     </div>
     <!-- Fin Modal pour édition du profil -->
+
+    <!-- Modal des Certificats -->
+    <div class="modal fade" id="certificates-modal" tabindex="-1" aria-labelledby="certificatesModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" style="max-width: 700px;">
+            <div class="modal-content" style="background-color: #f8f9fa;">
+                <div class="modal-header" style="background: linear-gradient(135deg, #5A5AFF 0%, #3d3d99 100%); color: white;">
+                    <h5 class="modal-title" id="certificatesModalLabel">🏆 Mes Certificats</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fermer"></button>
+                </div>
+                <div class="modal-body" style="max-height: 500px; overflow-y: auto;">
+                    <div id="certificates-loading" class="text-center" style="display: none;">
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden">Chargement...</span>
+                        </div>
+                        <p>Chargement de vos certificats...</p>
+                    </div>
+                    <div id="certificates-list" style="display: none;">
+                        <!-- Les certificats seront injectés ici -->
+                    </div>
+                    <div id="certificates-empty" class="text-center" style="display: none; padding: 40px 20px;">
+                        <p class="text-muted" style="font-size: 1.1rem;">📭 Aucun certificat obtenu pour le moment.</p>
+                        <small class="text-secondary">Terminez un cours à 100% pour obtenir un certificat.</small>
+                    </div>
+                    <div id="certificates-error" class="alert alert-warning" style="display: none;">
+                        <!-- Les messages d'erreur seront affichés ici -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Fin Modal des Certificats -->
+
     <!-- Navigation + Audio -->
     <article class="audio-navigation-container">
         <button id="toggle-audio-panel" class="toggle-arrow">
@@ -523,7 +559,7 @@ define('BASE_URL', 'http://localhost/formation_bamba/');
         
     <!-- Footer avec infos développeur et contact -->
     <footer class="footer text-black text-center text-lg-start">
-        <div class="text-left p-3 shadow">
+        <div class="text-left p-3 shadow footer-content">
             Copyright(&copy;): Aliou Mbengue - TECH-JAMM<br>
             Contact: 
             <span class=" d-inline-block">
@@ -545,6 +581,9 @@ define('BASE_URL', 'http://localhost/formation_bamba/');
                 <a href="tel:+221776647080" class="text-primary text-decoration-none">+221-77-664-70-80</a>
                 </span>
             </div>
+            <a href="admin.php" class="footer-settings-link" title="Administration" aria-label="Administration">
+                <i class="fas fa-cog" aria-hidden="true"></i>
+            </a>
         </div>
     </footer>
 
@@ -554,6 +593,138 @@ define('BASE_URL', 'http://localhost/formation_bamba/');
 
 <!-- SCRIPT GESTION LECTURE DE PAGE (AUDIO) -->
 <script src="./assets/js/script.js"></script>
+
+<!-- SCRIPT GESTION DES CERTIFICATS -->
+<script src="./assets/js/certificate-manager.js"></script>
+
+<!-- SCRIPT D'INTÉGRATION DES CERTIFICATS -->
+<script>
+// Initialiser le gestionnaire de certificats
+const certManager = new CertificateManager();
+
+// Ouvrir le modal et charger les certificats quand on clique sur "Mes Certificats"
+document.getElementById('view-badges-btn').addEventListener('click', async function(e) {
+    e.preventDefault();
+    const loadingDiv = document.getElementById('certificates-loading');
+    const listDiv = document.getElementById('certificates-list');
+    const emptyDiv = document.getElementById('certificates-empty');
+    const errorDiv = document.getElementById('certificates-error');
+    
+    // Réinitialiser l'affichage
+    loadingDiv.style.display = 'block';
+    listDiv.style.display = 'none';
+    emptyDiv.style.display = 'none';
+    errorDiv.style.display = 'none';
+    errorDiv.innerHTML = '';
+    
+    try {
+        // Charger les certificats
+        const certificates = await certManager.checkAvailableCertificates();
+        
+        if (!certificates || certificates.length === 0) {
+            loadingDiv.style.display = 'none';
+            emptyDiv.style.display = 'block';
+            return;
+        }
+        
+        // Créer le HTML pour les certificats
+        let certificatesHTML = '<div class="row g-3">';
+        certificates.forEach(cert => {
+            const courseNameLatin = cert.book_title || 'Cours inconnu';
+            const courseNameArabic = cert.course_name_arabic || '';
+            const completionDate = new Date(cert.completion_date).toLocaleDateString('fr-FR');
+            const certId = cert.certificate_id;
+            
+            certificatesHTML += `
+                <div class="col-md-6">
+                    <div class="card h-100" style="border-left: 4px solid #5A5AFF; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                        <div class="card-body">
+                            <h6 class="card-title" style="color: #5A5AFF; margin-bottom: 8px;">
+                                <i class="fas fa-certificate" style="color: #FFD700;"></i> ${courseNameLatin}
+                            </h6>
+                            ${courseNameArabic ? `<p class="card-text" style="font-size: 0.9rem; direction: rtl; text-align: right; color: #333; margin: 8px 0;">${courseNameArabic}</p>` : ''}
+                            <small class="text-muted d-block mb-2">
+                                <i class="fas fa-calendar"></i> ${completionDate}
+                            </small>
+                            <small class="text-secondary d-block mb-3" style="word-break: break-all; font-family: monospace;">
+                                ID: ${certId}
+                            </small>
+                            <div class="d-flex gap-2" style="flex-wrap: wrap;">
+                                <button class="btn btn-sm btn-outline-primary" onclick="certManager.downloadCertificate('${certId}', 'html')" title="Voir le certificat">
+                                    <i class="fas fa-eye"></i> Voir
+                                </button>
+                                <button class="btn btn-sm btn-outline-success" onclick="certManager.downloadCertificate('${certId}', 'pdf')" title="Télécharger en PDF">
+                                    <i class="fas fa-download"></i> PDF
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+        certificatesHTML += '</div>';
+        
+        loadingDiv.style.display = 'none';
+        listDiv.innerHTML = certificatesHTML;
+        listDiv.style.display = 'block';
+    } catch (error) {
+        console.error('Erreur lors du chargement des certificats:', error);
+        loadingDiv.style.display = 'none';
+        errorDiv.style.display = 'block';
+        errorDiv.innerHTML = `<strong>Erreur:</strong> ${error.message || 'Impossible de charger les certificats'}`;
+    }
+});
+
+// Gestion des boutons Télécharger sur les livres terminés
+// REMARQUE: Cette fonction est définie dans certificates-integration.js
+// On la garde ici pour compatibilité, mais la vraie fonction vient de certificates-integration.js
+function updateCertificateButtons() {
+    // Vérifier si certManager est disponible (charge depuis certificates-integration.js)
+    if (typeof certManager === 'undefined') {
+        console.warn('⚠️ certManager non disponible, certificats non chargés');
+        return;
+    }
+    
+    certManager.checkAvailableCertificates()
+        .then(certificates => {
+            const certMap = {};
+            certificates.forEach(cert => {
+                certMap[cert.book_title] = cert.certificate_id;
+            });
+            
+            // Mettre à jour chaque livre dans la liste
+            const bookItems = document.querySelectorAll('.book-item');
+            if (bookItems.length === 0) {
+                console.log('ℹ️ Aucun livre chargé pour le moment');
+                return;
+            }
+            
+            bookItems.forEach(bookItem => {
+                const bookTitle = bookItem.getAttribute('data-latin');
+                const listItem = bookItem.closest('li');
+                if (!listItem) return;
+                
+                const downloadBtn = listItem.querySelector('.download-badge');
+                if (!downloadBtn) return;  // Vérification importante!
+                
+                if (certMap[bookTitle]) {
+                    downloadBtn.style.display = 'inline-block';
+                    downloadBtn.onclick = function(e) {
+                        e.stopPropagation();
+                        certManager.downloadCertificate(certMap[bookTitle], 'html');
+                    };
+                }
+            });
+        })
+        .catch(err => console.error('❌ Erreur certificats:', err));
+}
+
+// Appeler la fonction une fois les livres chargés et les certificats chargés
+// Sera appelé par initializeCertificatesIntegration() après chargement de certificates-integration.js
+</script>
+
+<!-- SCRIPT D'INTÉGRATION DES CERTIFICATS (chargé EN PREMIER) -->
+<script src="./assets/js/certificates-integration.js"></script>
 
 <!-- Inclure Font Awesome si ce n'est pas déjà fait -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
