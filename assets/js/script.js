@@ -145,6 +145,39 @@ const READING_PROMPT_DISMISSED_KEY = 'bamba_last_reading_prompt_dismissed';
 const APP_DISPLAY_NAME = document.querySelector('.page-header h1')?.textContent?.trim() || document.title || 'Application';
 let readingResumeModal = null;
 
+function getBookParamsFromUrl() {
+    const url = new URL(window.location.href);
+    const book = url.searchParams.get('book');
+    const page = parseInt(url.searchParams.get('page') || '', 10);
+
+    if (!book || !books[book]) {
+        return null;
+    }
+
+    return {
+        book,
+        page: Number.isInteger(page) && page > 0 ? page : null
+    };
+}
+
+function updateReaderUrl(bookTitle, page = null) {
+    const url = new URL(window.location.href);
+
+    if (!bookTitle) {
+        return;
+    }
+
+    url.searchParams.set('book', bookTitle);
+
+    if (Number.isInteger(page) && page > 0) {
+        url.searchParams.set('page', String(page));
+    } else {
+        url.searchParams.delete('page');
+    }
+
+    window.history.replaceState({}, '', url.toString());
+}
+
 function getCurrentDisplayedPage() {
     if (!currentBookTitle || !Array.isArray(images) || !images.length || !config) {
         return null;
@@ -393,6 +426,10 @@ function loadBook(bookTitle, options = {}) {
 
         document.getElementById('pageLabel').textContent =
             `Page ${config.lang === 'ar' ? images.length - startIndex : startIndex + 1}`;
+        updateReaderUrl(
+            currentBookTitle,
+            config.lang === 'ar' ? images.length - startIndex : startIndex + 1
+        );
 
         persistCurrentReadingState();
 
@@ -708,6 +745,7 @@ function loadBook(bookTitle, options = {}) {
         
                 // Ajouter le numéro de page au Label du l'icône page
                 document.getElementById('pageLabel').textContent = `Page ${pageIndex + 1}`;
+                updateReaderUrl(currentBookTitle, pageIndex + 1);
                 persistCurrentReadingState();
         
                 // Vérifier si l'audio correspondant existe avant de l'initialiser et de le charger
@@ -791,6 +829,15 @@ document.addEventListener('visibilitychange', () => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
+    const directBook = getBookParamsFromUrl();
+    if (directBook) {
+        loadBook(
+            directBook.book,
+            directBook.page ? { resumePage: directBook.page, preferSavedPage: true } : {}
+        );
+        return;
+    }
+
     const savedState = readSavedReadingState();
     if (savedState) {
         setTimeout(() => showReadingResumeModal(savedState), 700);
@@ -1183,8 +1230,7 @@ document.getElementById('bookSearch').addEventListener('input', function () {
 
 // Fonction pour injecter l'entête dans la liste de livres
 function injectBookHeader(htmlContent, shouldInject) {
-    // Supprimer tous les anciens en-têtes
-    document.querySelectorAll('.book-result-header').forEach(header => header.remove());
+    clearBookResultHeaders();
 
     if (!shouldInject) return; // Ne rien faire si pas de recherche
 
@@ -1195,6 +1241,10 @@ function injectBookHeader(htmlContent, shouldInject) {
     document.querySelectorAll('.all-book-list-content').forEach(list => {
         list.parentNode.insertBefore(header.cloneNode(true), list);
     });
+}
+
+function clearBookResultHeaders() {
+    document.querySelectorAll('.book-result-header').forEach(header => header.remove());
 }
 
 // Fonction pour convertir les valeurs de filtre
@@ -1307,10 +1357,93 @@ function adjustSearchDirection(input) {
     input.style.textAlign = isArabic ? 'right' : 'left';
 }
 
+function getUserInitials(fullname = '') {
+    return fullname
+        .trim()
+        .split(/\s+/)
+        .filter(Boolean)
+        .map(part => part.charAt(0).toUpperCase())
+        .join('')
+        .slice(0, 2);
+}
+
+function setUserAvatar(fullname = '') {
+    const avatarText = document.getElementById('userAvatarText');
+    const avatarFallback = document.getElementById('userAvatarFallback');
+    const userIcon = document.getElementById('userIcon');
+
+    if (!avatarText || !avatarFallback || !userIcon) {
+        return;
+    }
+
+    const initials = getUserInitials(fullname);
+    avatarText.textContent = initials;
+    avatarFallback.classList.toggle('hidden', initials !== '');
+    userIcon.classList.toggle('is-authenticated', initials !== '');
+    userIcon.setAttribute('title', fullname || 'Visiteur');
+}
+
+function getProfileImageUrl(path = '') {
+    const normalized = (path || '').trim();
+    if (!normalized) {
+        return './assets/images/logos/logo.png';
+    }
+
+    return normalized.startsWith('./') ? normalized : `./${normalized.replace(/^\/+/, '')}`;
+}
+
+function updateProfileCard(user = {}) {
+    const fullname = user.fullname || 'Nom inconnu';
+    const email = user.email || 'Email inconnu';
+    const phone = user.phone || 'Téléphone inconnu';
+    const country = user.country || 'Pays inconnu';
+    const profileImage = getProfileImageUrl(user.profile_image || '');
+
+    document.getElementById("profile-fullname").textContent = fullname;
+    document.getElementById("profile-email-value").textContent = email;
+    document.getElementById("profile-phone-value").textContent = phone;
+    document.getElementById("profile-country-value").textContent = country;
+    document.getElementById("profile-image").src = `${profileImage}?t=${Date.now()}`;
+}
+
+function toggleSearchPanel(forceOpen = null) {
+    const panel = document.getElementById('bookSearchForm');
+    if (!panel || panel.classList.contains('is-hidden')) {
+        return;
+    }
+
+    const nextState = forceOpen === null ? !panel.classList.contains('is-open') : forceOpen;
+    panel.classList.toggle('is-open', nextState);
+
+    if (nextState) {
+        const input = document.getElementById('bookSearch');
+        if (input) {
+            setTimeout(() => input.focus(), 60);
+        }
+    }
+}
+
+function setSearchPanelAvailability(isVisible) {
+    const panel = document.getElementById('bookSearchForm');
+    const toggle = document.getElementById('search-panel-toggle');
+    if (!panel || !toggle) {
+        return;
+    }
+
+    panel.classList.toggle('is-hidden', !isVisible);
+    toggle.style.display = isVisible ? 'inline-flex' : 'none';
+
+    if (!isVisible) {
+        panel.classList.remove('is-open');
+    }
+}
+
 // Affichage sous menu utilisateur
 document.addEventListener('DOMContentLoaded', function () {
     const userIcon = document.getElementById('userIcon');
     const dropdown = document.getElementById('user-dropdown');
+    const searchToggle = document.getElementById('search-panel-toggle');
+    const searchPanel = document.getElementById('bookSearchForm');
 
     userIcon.addEventListener('click', function (e) {
         e.stopPropagation(); // Empêche la fermeture immédiate
@@ -1322,8 +1455,23 @@ document.addEventListener('DOMContentLoaded', function () {
         dropdown.style.display = dropdown.style.display === 'none' || dropdown.style.display === '' ? 'block' : 'none';
     });
 
+    if (searchToggle) {
+        searchToggle.addEventListener('click', function (e) {
+            e.stopPropagation();
+            dropdown.style.display = 'none';
+            toggleSearchPanel();
+        });
+    }
+
+    if (searchPanel) {
+        searchPanel.addEventListener('click', function (e) {
+            e.stopPropagation();
+        });
+    }
+
     document.addEventListener('click', function () {
         dropdown.style.display = 'none';
+        toggleSearchPanel(false);
     });
 });
 
@@ -1343,10 +1491,10 @@ function refreshUserSubMenu() {
                 document.getElementById('user-profile-link').style.display = 'flex';
                 document.getElementById('user-book-link').style.display = 'flex';
                 document.getElementById('user-logout-link').style.display = 'flex';
-                document.getElementById('userName').textContent = user.fullname || 'Inconnu';
+                setUserAvatar(user.fullname || '');
             } else {
                 document.getElementById('user-login-link').style.display = 'flex';
-                document.getElementById('userName').textContent = 'Visiteur';
+                setUserAvatar('');
             }
         })
         .catch(error => {
@@ -1371,10 +1519,14 @@ document.addEventListener('DOMContentLoaded', function () {
     const profileForm = document.querySelector('.user-profile-form');
     const authForm = document.querySelector('.user-auth-section');
 
+    setSearchPanelAvailability(true);
+    toggleSearchPanel(false);
+
     // Clic sur l’icône "Livres"
     allBookIcon.addEventListener('click', function () {
         menuTitle.textContent = "Livres disponibles";
-        bookSearchForm.style.display = "block";
+        setSearchPanelAvailability(true);
+        toggleSearchPanel(false);
         // Acctualiser la liste des livres et les boutons de contrôle
         refreshAllBookList();
         allBookList.style.display = "block";
@@ -1398,7 +1550,9 @@ document.addEventListener('DOMContentLoaded', function () {
     userBookLink.addEventListener('click', function (e) {
         e.preventDefault();
         menuTitle.textContent = "Mes livres";
-        bookSearchForm.style.display = "block";
+        setSearchPanelAvailability(true);
+        toggleSearchPanel(false);
+        clearBookResultHeaders();
         allBookList.style.display = "none";
         userBookList.style.display = "block";
         profileForm.style.display = "none";
@@ -1417,7 +1571,8 @@ document.addEventListener('DOMContentLoaded', function () {
         e.preventDefault();
 
         menuTitle.textContent = "Mon Compte";
-        bookSearchForm.style.display = "none";
+        setSearchPanelAvailability(false);
+        clearBookResultHeaders();
         allBookList.style.display = "none";
         userBookList.style.display = "none";
         profileForm.style.display = "block";
@@ -1442,14 +1597,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     form.fullname.value = user.fullname || '';
                     form.email.value = user.email || '';
                     form.phone.value = user.phone || '';
+                    form.country.value = user.country || '';
                     form.userOldPassword.value = '';
                     form.userNewPassword.value = '';
 
-                    // Mettre à jour la carte visible
-                    document.getElementById("profile-fullname").textContent = user.fullname || 'Nom inconnu';
-                    document.getElementById("profile-email").textContent = "Email: " + (user.email || 'Email inconnu');
-                    document.getElementById("profile-phone").textContent = "Téléphone: " + (user.phone || 'Téléphone inconnu');
-
+                    updateProfileCard(user);
                     infoCard.style.display = "block";
 
                 } else {
@@ -1480,7 +1632,8 @@ document.addEventListener('DOMContentLoaded', function () {
     userLoginLink.addEventListener('click', function (e) {
         e.preventDefault();
         menuTitle.textContent = "Authentification";
-        bookSearchForm.style.display = "none";
+        setSearchPanelAvailability(false);
+        clearBookResultHeaders();
         allBookList.style.display = "none";
         userBookList.style.display = "none";
         profileForm.style.display = "none";
@@ -1495,7 +1648,9 @@ document.addEventListener('DOMContentLoaded', function () {
     userLogoutLink.addEventListener('click', function (e) {
         e.preventDefault();
         menuTitle.textContent = "Livres disponibles";
-        bookSearchForm.style.display = "block";
+        setSearchPanelAvailability(true);
+        toggleSearchPanel(false);
+        clearBookResultHeaders();
         allBookList.style.display = "block";
         userBookList.style.display = "none";
         profileForm.style.display = "none";
@@ -1950,7 +2105,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // Afficher le menu livre de l'utilisateur connecté
                 document.getElementById('bookMenuTitle').textContent = "Mes livres";
-                document.getElementById('bookSearchForm').style.display = "block";
+                setSearchPanelAvailability(true);
+                toggleSearchPanel(false);
                 document.querySelector('.all-book-list-content').style.display = "none";
                 document.querySelector('.user-book-list-content').style.display = "block";
                 document.querySelector('.user-profile-form').style.display = "none";
@@ -2014,7 +2170,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // Afficher la section connectée ou autre action
                 document.getElementById('bookMenuTitle').textContent = "Mes livres";
-                document.getElementById('bookSearchForm').style.display = "block";
+                setSearchPanelAvailability(true);
+                toggleSearchPanel(false);
                 document.querySelector('.all-book-list-content').style.display = "none";
                 document.querySelector('.user-book-list-content').style.display = "block";
                 document.querySelector('.user-profile-form').style.display = "none";
@@ -2177,6 +2334,10 @@ profileFormElement.addEventListener('submit', function (e) {
             successDiv.classList.add("text-success");
             successDiv.textContent = "Profil mis à jour avec succès.";
             successDiv.style.display = "block";
+            if (data.user) {
+                setUserAvatar(data.user.fullname || '');
+                updateProfileCard(data.user);
+            }
 
         } else {
             errorDiv.textContent = data.message || "Une erreur s'est produite.";
@@ -2193,6 +2354,47 @@ profileFormElement.addEventListener('submit', function (e) {
         errorDiv.style.display = "block";
     });
 });
+
+const profileImageElement = document.getElementById('profile-image');
+const profileImageInput = document.getElementById('profile-image-input');
+
+if (profileImageElement && profileImageInput) {
+    profileImageElement.addEventListener('click', () => {
+        profileImageInput.click();
+    });
+
+    profileImageInput.addEventListener('change', () => {
+        const file = profileImageInput.files?.[0];
+        if (!file) {
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('profile_image', file);
+
+        fetch('rqt_user_profile_photo_update.php', {
+            method: 'POST',
+            body: formData
+        })
+            .then(resp => resp.json())
+            .then(data => {
+                if (data.status === 'ok') {
+                    const profileUrl = getProfileImageUrl(data.profile_image || '');
+                    profileImageElement.src = `${profileUrl}?t=${Date.now()}`;
+                    showFloatingMessage("Photo de profil mise à jour.", "success");
+                } else {
+                    showFloatingMessage(data.message || "Impossible de mettre à jour la photo.", "danger");
+                }
+            })
+            .catch(error => {
+                console.error('Erreur mise à jour photo :', error);
+                showFloatingMessage("Erreur lors de l'envoi de la photo.", "danger");
+            })
+            .finally(() => {
+                profileImageInput.value = '';
+            });
+    });
+}
 
 
 // Afficher/cacher mot de passe

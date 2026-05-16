@@ -21,6 +21,8 @@ if ($user && password_verify($password, $user['password'])) {
     $_SESSION['user']['fullname'] = $user['fullname'];
     $_SESSION['user']['email'] = $user['email'];
     $_SESSION['user']['phone'] = $user['phone'];
+    $_SESSION['user']['country'] = $user['country'] ?? '';
+    $_SESSION['user']['profile_image'] = $user['profile_image'] ?? '';
     echo json_encode(['success' => true]);
 } else {
     echo json_encode(['success' => false, 'message' => 'Email ou mot de passe incorrect.']);

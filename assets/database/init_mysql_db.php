@@ -21,6 +21,8 @@ try {
             fullname VARCHAR(255) NOT NULL,
             email VARCHAR(255) NOT NULL UNIQUE,
             phone VARCHAR(50) UNIQUE,
+            country VARCHAR(120) NULL,
+            profile_image VARCHAR(255) NULL,
             password VARCHAR(255) NOT NULL,
             state TINYINT DEFAULT 1,
             activation_code VARCHAR(255),

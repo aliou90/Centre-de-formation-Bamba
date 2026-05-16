@@ -14,6 +14,7 @@ $data = json_decode(file_get_contents("php://input"), true);
 $fullname = trim($data['fullname'] ?? '');
 $email = trim($data['email'] ?? '');
 $phone = trim($data['phone'] ?? '');
+$country = trim($data['country'] ?? '');
 $password = $data['password'] ?? '';
 $confirmPassword = $data['confirm_password'] ?? '';
 
@@ -55,11 +56,12 @@ if ($stmt->fetchColumn()) {
 $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
 // Insertion de l'utilisateur
-$insert = $db->prepare("INSERT INTO users (fullname, email, phone, password) VALUES (:fullname, :email, :phone, :password)");
+$insert = $db->prepare("INSERT INTO users (fullname, email, phone, country, password) VALUES (:fullname, :email, :phone, :country, :password)");
 $success = $insert->execute([
     'fullname' => $fullname,
     'email' => $email,
     'phone' => $phone,
+    'country' => $country !== '' ? $country : null,
     'password' => $hashedPassword
 ]);
 

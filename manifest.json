@@ -1,11 +1,17 @@
 {
   "name": "Plateforme de formation Bamba",
   "short_name": "Formation Bamba",
+  "id": "/index.php",
   "start_url": "/index.php",
+  "scope": "/",
   "display": "standalone",
+  "orientation": "portrait-primary",
   "background_color": "#001f3d",
-  "theme_color": "#000000",
-  "description": "Plateforme de formation sur les enseignements religieux",
+  "theme_color": "#001f3d",
+  "description": "Application PWA de formation aux enseignements religieux de Cheikh Ahmadou Bamba avec livres en arabe, traduction wolof et audio synchronise.",
+  "lang": "fr",
+  "dir": "ltr",
+  "categories": ["education", "books", "religion", "music"],
   "icons": [
     {
       "src": "/assets/images/icons/icon-192x192.png",

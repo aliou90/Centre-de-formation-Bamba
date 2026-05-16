@@ -10,6 +10,8 @@ $db->exec("
         fullname TEXT NOT NULL,
         email TEXT NOT NULL UNIQUE,
         phone TEXT UNIQUE,
+        country TEXT,
+        profile_image TEXT,
         password TEXT NOT NULL,
         state INTEGER DEFAULT 1,
         activation_code TEXT

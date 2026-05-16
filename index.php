@@ -9,7 +9,109 @@ if (session_status() == PHP_SESSION_NONE) {
 <?php 
 // VARIABLES GLOBALES
 define('APP_NAME', 'Plateforme de Formation Bamba');
-define('BASE_URL', 'http://localhost/formation_bamba/');
+if (!function_exists('seo_build_base_url')) {
+    function seo_build_base_url(): string
+    {
+        if (!empty($_SERVER['HTTP_HOST'])) {
+            $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+            $basePath = rtrim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? '/index.php')), '/.');
+            return $scheme . '://' . $_SERVER['HTTP_HOST'] . ($basePath !== '' ? $basePath : '');
+        }
+
+        return 'http://localhost';
+    }
+}
+define('BASE_URL', seo_build_base_url());
+
+$seoDescription = 'Application PWA de formation aux enseignements religieux de Cheikh Ahmadou Bamba, avec livres en arabe traduits en wolof, audio synchronise et parcours d apprentissage.';
+$seoKeywords = 'Cheikh Ahmadou Bamba, Mouridisme, xassida, livres arabes, traduction wolof, audio synchronise, formation religieuse, Cheikh Abdou Rahmane Mbacke, PWA islam';
+$seoCanonical = rtrim(BASE_URL, '/') . '/index.php';
+$seoImage = rtrim(BASE_URL, '/') . '/assets/images/logos/logo2.png';
+$seoCurrentBook = null;
+$seoRequestedBook = isset($_GET['book']) ? (string) $_GET['book'] : '';
+
+if ($seoRequestedBook !== '' && isset($books[$seoRequestedBook])) {
+    $seoCurrentBook = $books[$seoRequestedBook];
+    $seoConfig = $seoCurrentBook['config'] ?? [];
+    $seoBookTitle = (string) ($seoConfig['nomLatin'] ?? $seoRequestedBook);
+    $seoBookArabic = trim((string) ($seoConfig['nomArabe'] ?? ''));
+    $seoBookAuthor = trim((string) ($seoConfig['auteur'] ?? 'Cheikh Ahmadou Bamba'));
+    $seoBookTranslator = trim((string) ($seoConfig['traducteur'] ?? 'Cheikh Abdou Rahmane Mbacke'));
+    $seoBookVoice = trim((string) ($seoConfig['voix'] ?? $seoBookTranslator));
+    $seoDescription = $seoBookTitle . ' - ouvrage de ' . $seoBookAuthor . ($seoBookArabic !== '' ? ' (' . $seoBookArabic . ')' : '') . ', disponible avec traduction et audio synchronise par ' . $seoBookVoice . ' sur ' . APP_NAME . '.';
+    $seoCanonical = rtrim(BASE_URL, '/') . '/index.php?book=' . rawurlencode($seoRequestedBook);
+}
+
+$seoTitle = $seoCurrentBook
+    ? (($seoCurrentBook['config']['nomLatin'] ?? $seoRequestedBook) . ' | ' . APP_NAME)
+    : (APP_NAME . ' | Formation religieuse de Cheikh Ahmadou Bamba');
+
+$seoBookList = [];
+foreach ($books as $bookFolder => $bookData) {
+    $bookConfig = $bookData['config'] ?? [];
+    $seoBookList[] = [
+        '@type' => 'ListItem',
+        'position' => count($seoBookList) + 1,
+        'url' => rtrim(BASE_URL, '/') . '/index.php?book=' . rawurlencode($bookFolder),
+        'name' => (string) ($bookConfig['nomLatin'] ?? $bookFolder),
+    ];
+}
+
+$seoGraph = [
+    '@context' => 'https://schema.org',
+    '@graph' => [
+        [
+            '@type' => 'WebSite',
+            '@id' => $seoCanonical . '#website',
+            'url' => $seoCanonical,
+            'name' => APP_NAME,
+            'description' => $seoDescription,
+            'inLanguage' => ['fr', 'ar', 'wo'],
+        ],
+        [
+            '@type' => 'WebApplication',
+            '@id' => rtrim(BASE_URL, '/') . '/index.php#app',
+            'name' => APP_NAME,
+            'url' => rtrim(BASE_URL, '/') . '/index.php',
+            'applicationCategory' => 'EducationalApplication',
+            'operatingSystem' => 'Android, iOS, Web',
+            'description' => 'Bibliotheque PWA dediee aux enseignements religieux de Cheikh Ahmadou Bamba avec livres, audio synchronise, progression et certificats.',
+            'inLanguage' => ['fr', 'ar', 'wo'],
+            'isAccessibleForFree' => true,
+        ],
+        [
+            '@type' => 'ItemList',
+            '@id' => rtrim(BASE_URL, '/') . '/index.php#books',
+            'name' => 'Livres disponibles',
+            'numberOfItems' => count($seoBookList),
+            'itemListElement' => $seoBookList,
+        ],
+    ],
+];
+
+if ($seoCurrentBook) {
+    $seoConfig = $seoCurrentBook['config'] ?? [];
+    $seoGraph['@graph'][] = array_filter([
+        '@type' => 'Book',
+        '@id' => $seoCanonical . '#book',
+        'name' => (string) ($seoConfig['nomLatin'] ?? $seoRequestedBook),
+        'alternateName' => (string) ($seoConfig['nomArabe'] ?? ''),
+        'inLanguage' => (string) ($seoConfig['lang'] ?? 'ar'),
+        'description' => $seoDescription,
+        'url' => $seoCanonical,
+        'author' => [
+            '@type' => 'Person',
+            'name' => (string) ($seoConfig['auteur'] ?? 'Cheikh Ahmadou Bamba'),
+        ],
+        'translator' => !empty($seoConfig['traducteur']) ? [
+            '@type' => 'Person',
+            'name' => (string) $seoConfig['traducteur'],
+        ] : null,
+        'numberOfPages' => isset($seoCurrentBook['images']) && is_array($seoCurrentBook['images']) ? count($seoCurrentBook['images']) : null,
+        'bookFormat' => 'https://schema.org/EBook',
+        'image' => $seoImage,
+    ], static fn($value) => $value !== null && $value !== '');
+}
 
 ?>
 <!DOCTYPE html>
@@ -17,7 +119,33 @@ define('BASE_URL', 'http://localhost/formation_bamba/');
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= APP_NAME ?></title>
+    <title><?= htmlspecialchars($seoTitle) ?></title>
+    <meta name="description" content="<?= htmlspecialchars($seoDescription) ?>">
+    <meta name="keywords" content="<?= htmlspecialchars($seoKeywords) ?>">
+    <meta name="author" content="Cheikh Ahmadou Bamba, Cheikh Abdou Rahmane Mbacke">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta name="application-name" content="<?= htmlspecialchars(APP_NAME) ?>">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="<?= htmlspecialchars(APP_NAME) ?>">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="theme-color" content="#001f3d">
+    <meta name="msapplication-TileColor" content="#001f3d">
+    <link rel="canonical" href="<?= htmlspecialchars($seoCanonical) ?>">
+    <meta property="og:type" content="<?= $seoCurrentBook ? 'book' : 'website' ?>">
+    <meta property="og:site_name" content="<?= htmlspecialchars(APP_NAME) ?>">
+    <meta property="og:title" content="<?= htmlspecialchars($seoTitle) ?>">
+    <meta property="og:description" content="<?= htmlspecialchars($seoDescription) ?>">
+    <meta property="og:url" content="<?= htmlspecialchars($seoCanonical) ?>">
+    <meta property="og:image" content="<?= htmlspecialchars($seoImage) ?>">
+    <meta property="og:image:alt" content="<?= htmlspecialchars(APP_NAME) ?>">
+    <meta property="og:locale" content="fr_SN">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="<?= htmlspecialchars($seoTitle) ?>">
+    <meta name="twitter:description" content="<?= htmlspecialchars($seoDescription) ?>">
+    <meta name="twitter:image" content="<?= htmlspecialchars($seoImage) ?>">
+    <script type="application/ld+json"><?= json_encode($seoGraph, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?></script>
     
     <!-- JQUERY -->
     <script src="assets/js/jquery.min.js"></script>
@@ -47,12 +175,13 @@ define('BASE_URL', 'http://localhost/formation_bamba/');
 
     <!-- FICHIER MANIFEST POUR PWA -->
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#000000">
+    <link rel="icon" type="image/png" sizes="192x192" href="assets/images/icons/icon-192x192.png">
+    <link rel="apple-touch-icon" href="assets/images/icons/icon-192x192.png">
 
 </head>
 <body>
     <header class="page-header col-10 d-flex flex-column align-items-center justify-content-center">
-        <img src="./assets/images/logos/logo2.png" class="header-logo" alt="website icon">
+        <img src="./assets/images/logos/logo2.png" class="header-logo" alt="<?= htmlspecialchars(APP_NAME) ?>">
         <h1 class="text-white"><?= APP_NAME ?></h1>
     </header>
 
@@ -62,17 +191,28 @@ define('BASE_URL', 'http://localhost/formation_bamba/');
     <!-- Menu flottant - Liste des livres -->
     <aside id="book-list" style="margin-left: 0; margin-right: 0; padding-left: 0; padding-right: 0;">
         
-        <div id="user-menu" class="d-flex justify-content-between align-items-center" style="padding: 10px; background-color: #001f3d; color: white;">
-            <?php $fullname = $_SESSION['user']['fullname'] ?? 'Visiteur'; ?>
-            <span id="userName" style="margin-left: 20px;"><?= htmlspecialchars($fullname); ?></span>
-            <span>
-                <!-- Ouvrir sous-menu utilisateur -->
-                <span id="userIcon" class="" style="cursor:pointer; margin: 3px;">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+        <div id="user-menu" class="d-flex justify-content-between align-items-center" style="padding: 7px; background-color: #001f3d; color: white;">
+            <?php
+                $fullname = $_SESSION['user']['fullname'] ?? '';
+                $initials = '';
+                if ($fullname !== '') {
+                    $parts = preg_split('/\s+/', trim($fullname));
+                    foreach ($parts as $part) {
+                        if ($part !== '') {
+                            $initials .= mb_strtoupper(mb_substr($part, 0, 1));
+                        }
+                    }
+                    $initials = mb_substr($initials, 0, 2);
+                }
+            ?>
+            <div class="user-menu-left">
+                <button id="userIcon" type="button" class="user-avatar-trigger<?= $initials ? ' is-authenticated' : '' ?>" aria-label="Menu utilisateur" title="<?= $fullname !== '' ? htmlspecialchars($fullname) : 'Visiteur' ?>">
+                    <span id="userAvatarText"><?= $initials !== '' ? htmlspecialchars($initials) : '' ?></span>
+                    <svg id="userAvatarFallback" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person-circle<?= $initials !== '' ? ' hidden' : '' ?>" viewBox="0 0 16 16" aria-hidden="true">
                     <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
                     <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
                     </svg>
-                </span>
+                </button>
                 <!-- Sous Menu utilisateur -->
                 <div id="user-dropdown" class="dropdown-menu show shadow user-dropdown-submenu" style="display: none; position: absolute; right: 10px; top: 60px; background-color: white; border-radius: 8px; overflow: hidden; z-index: 1000;">
                     <!-- Si l'utilisateur est connecté -->
@@ -82,19 +222,24 @@ define('BASE_URL', 'http://localhost/formation_bamba/');
                     <!-- Si l'utilisateur n'est pas connecté -->
                     <a id="user-login-link" class="dropdown-item text-success user-dropdown-submenu-item" style="cursor: pointer;">Se connecter</a>
                 </div>
-
-                <!-- Afficher tous les livres -->
+            </div>
+            <div class="user-menu-actions">
+                <button id="search-panel-toggle" type="button" class="sidebar-action-btn" aria-label="Recherche et filtres" title="Recherche et filtres">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16" aria-hidden="true">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.398 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.114-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                    </svg>
+                </button>
                 <span id="show-all-book" class="" style="cursor:pointer; margin: 3px;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-book" viewBox="0 0 16 16">
                     <path d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783"/>
                     </svg>
                 </span>
-            </span>
+            </div>
         </div>
 
         <h3 id="bookMenuTitle" style="padding-left: 10px;">Livres disponibles</h3>
         <!-- Barre de recherche -->
-        <div id="bookSearchForm" class="position-relative" style="margin-bottom: 10px;">
+        <div id="bookSearchForm" class="position-relative sidebar-search-panel">
             <div class="search-input-group">
                 <input
                     type="text"
@@ -116,8 +261,8 @@ define('BASE_URL', 'http://localhost/formation_bamba/');
                 <span
                     class="search-icon position-absolute"
                     style="
-                        inset-inline-start: 15px;
-                        top: 20%;
+                        inset-inline-start: 20px;
+                        top: 25%;
                         transform: translateY(-50%);
                         color: #aaa;
                         font-size: 1rem;
@@ -220,13 +365,15 @@ define('BASE_URL', 'http://localhost/formation_bamba/');
             <div id="profile-info-card" class="card" style="max-width: 500px; margin: 20px auto;">
                 <div class="card-body text-center">
                     <!-- Image de profil -->
-                    <img src="./assets/images/logos/logo.png" class="rounded-circle" alt="Image de profil" id="profile-image" style="width: 100px; height: 100px; object-fit: cover;">
+                    <img src="./assets/images/logos/logo.png" class="rounded-circle" alt="Image de profil" id="profile-image" style="width: 100px; height: 100px; object-fit: cover; cursor: pointer; border: 3px solid rgba(90,90,255,0.18);" title="Changer rapidement la photo de profil">
+                    <input type="file" id="profile-image-input" accept="image/*" hidden>
                     <!-- Informations utilisateur -->
                     <h5 class="card-title" id="profile-fullname">Nom</h5>
                     <!-- Informations de contact alignées à gauche avec bootstrap -->
                     <div class="text-start">
-                        <p id="profile-email" class="mb-1"><strong>Email:</strong> <span id="profile-email">email@example.com</span></p>
-                        <p id="profile-phone" class="mb-1"><strong>Téléphone:</strong> <span id="profile-phone">+123456789</span></p>
+                        <p class="mb-1"><strong>📧:</strong> <span id="profile-email-value">email@example.com</span></p>
+                        <p class="mb-1"><strong>📞:</strong> <span id="profile-phone-value">+123456789</span></p>
+                        <p class="mb-1"><strong>🌍:</strong> <span id="profile-country-value">Pays inconnu</span></p>
                     </div>
 
                     <div class="d-flex justify-content-center mt-3" style="flex-wrap: wrap; gap: 10px;">
@@ -366,6 +513,11 @@ define('BASE_URL', 'http://localhost/formation_bamba/');
                 <div class="mb-2">
                     <label>Téléphone *</label>
                     <input type="text" name="phone" class="form-control" value="">
+                </div>
+
+                <div class="mb-2">
+                    <label>Pays</label>
+                    <input type="text" name="country" class="form-control" value="">
                 </div>
 
                 <div class="mb-2" style="position: relative;">

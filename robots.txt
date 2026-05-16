@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /admin.php
+Disallow: /rqt_
+Disallow: /assets/database/
+Disallow: /data/
+Sitemap: http://localhost/sitemap.xml

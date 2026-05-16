@@ -1,0 +1,1495 @@
+{
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "WebSite",
+            "@id": "http://localhost/index.php#website",
+            "url": "http://localhost/index.php",
+            "name": "Plateforme de Formation Bamba",
+            "description": "Application PWA de formation aux enseignements religieux de Cheikh Ahmadou Bamba, avec livres en arabe, traduction wolof et audio synchronise.",
+            "publisher": {
+                "@id": "http://localhost/index.php#organization"
+            },
+            "inLanguage": [
+                "fr",
+                "wo",
+                "ar"
+            ]
+        },
+        {
+            "@type": "Organization",
+            "@id": "http://localhost/index.php#organization",
+            "name": "Plateforme de Formation Bamba",
+            "url": "http://localhost/index.php",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "http://localhost/assets/images/logos/logo2.png"
+            }
+        },
+        {
+            "@type": "WebApplication",
+            "@id": "http://localhost/index.php#app",
+            "name": "Plateforme de Formation Bamba",
+            "url": "http://localhost/index.php",
+            "applicationCategory": "EducationalApplication",
+            "operatingSystem": "Android, iOS, Web",
+            "browserRequirements": "Navigateur moderne compatible PWA",
+            "description": "Plateforme de lecture, d ecoute synchronisee et de formation religieuse autour des ouvrages de Cheikh Ahmadou Bamba.",
+            "inLanguage": [
+                "fr",
+                "wo",
+                "ar"
+            ],
+            "isAccessibleForFree": true,
+            "publisher": {
+                "@id": "http://localhost/index.php#organization"
+            }
+        },
+        {
+            "@type": "CollectionPage",
+            "@id": "http://localhost/index.php#collection",
+            "url": "http://localhost/index.php",
+            "name": "Livres de formation religieuse en arabe et wolof",
+            "description": "Collection de livres religieux, xassidas et ouvrages d apprentissage avec audio synchronise.",
+            "isPartOf": {
+                "@id": "http://localhost/index.php#website"
+            },
+            "mainEntity": {
+                "@id": "http://localhost/index.php#itemlist"
+            }
+        },
+        {
+            "@type": "ItemList",
+            "@id": "http://localhost/index.php#itemlist",
+            "name": "Bibliotheque de Formation Bamba",
+            "numberOfItems": 48,
+            "itemListElement": [
+                {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "url": "http://localhost/index.php?book=Ad%20D%C3%A0liyatu%20%28ar-wo%29",
+                    "name": "Ad Dàliyatu (ar-wo)"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "url": "http://localhost/index.php?book=Al%20Burdatu%20%28ar-wo%29",
+                    "name": "Al Burdatu (ar-wo)"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 3,
+                    "url": "http://localhost/index.php?book=Al%20Hamziyya%20%28ar-wo%29",
+                    "name": "Al Hamziyya (ar-wo)"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 4,
+                    "url": "http://localhost/index.php?book=Al%20Hashm%C3%A0wiyou%20%28ar-wo%29",
+                    "name": "Al Hashmàwiyou (ar-wo)"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 5,
+                    "url": "http://localhost/index.php?book=Al%20Insh%C3%A0%20Us%20Sah%C3%ACh%201%20%28ar-wo%29",
+                    "name": "Al Inshà Us Sahìh 1 (ar-wo)"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 6,
+                    "url": "http://localhost/index.php?book=Al%20Insh%C3%A0%20Us%20Sah%C3%ACh%202%20%28ar-wo%29",
+                    "name": "Al Inshà Us Sahìh 2 (ar-wo)"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 7,
+                    "url": "http://localhost/index.php?book=An%20Nahwul%20W%C3%A0dih%20%D9%901%20%28ar-wo%29",
+                    "name": "An Nahwul Wàdih ِ1 (ar-wo)"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 8,
+                    "url": "http://localhost/index.php?book=An%20Nahwul%20W%C3%A0dih%20%D9%902%20%28ar-wo%29",
+                    "name": "An Nahwul Wàdih ِ2 (ar-wo)"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 9,
+                    "url": "http://localhost/index.php?book=Arbah%C3%B9na%20Had%C3%ACth%20%28ar-wo%29",
+                    "name": "Arbahùna Hadìth (ar-wo)"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 10,
+                    "url": "http://localhost/index.php?book=Ashalul%20Mas%C3%A0lik%20%28ar-wo%29",
+                    "name": "Ashalul Masàlik (ar-wo)"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 11,
+                    "url": "http://localhost/index.php?book=Fathul%20Mann%C3%A0n%20%28ar-wo%29",
+                    "name": "Fathul Mannàn (ar-wo)"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 12,
+                    "url": "http://localhost/index.php?book=Faydul%20Ghaniyyil%20Mughn%C3%AC%20%28ar-wo%29",
+                    "name": "Faydul Ghaniyyil Mughnì (ar-wo)"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 13,
+                    "url": "http://localhost/index.php?book=Holly%20Coran%20in%20English%20%28en-en%29",
+                    "name": "Holly Coran in English (en-en)"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 14,
+                    "url": "http://localhost/index.php?book=Huqal%20Buk%C3%A0-u%20%28ar-wo%29",
+                    "name": "Huqal Bukà-u (ar-wo)"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 15,
+                    "url": "http://localhost/index.php?book=H%C3%A0ma%20Shahidn%C3%A0%20Bikaramin%20%28ar-wo%29",
+                    "name": "Hàma Shahidnà Bikaramin (ar-wo)"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 16,
+                    "url": "http://localhost/index.php?book=Ibnu%20Duraydi%20%28ar-wo%29",
+                    "name": "Ibnu Duraydi (ar-wo)"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 17,
+                    "url": "http://localhost/index.php?book=Ibnu%20H%C3%A0sir%20%28ar-wo%29",
+                    "name": "Ibnu Hàsir (ar-wo)"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 18,
+                    "url": "http://localhost/index.php?book=Ilhamul%20Wad%C3%B9d%20%28ar-wo%29",
+                    "name": "Ilhamul Wadùd (ar-wo)"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 19,
+                    "url": "http://localhost/index.php?book=Ilh%C3%A0mus%20Sal%C3%A0m%20%28ar-wo%29",
+                    "name": "Ilhàmus Salàm (ar-wo)"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 20,
+                    "url": "http://localhost/index.php?book=Jawharun%20Naf%C3%ACs%20%28ar-wo%29",
+                    "name": "Jawharun Nafìs (ar-wo)"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 21,
+                    "url": "http://localhost/index.php?book=Jaw%C3%A0bu%20Serign%20Pakala%20%28ar-wo%29",
+                    "name": "Jawàbu Serign Pakala (ar-wo)"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 22,
+                    "url": "http://localhost/index.php?book=Jaw%C3%A0bu%20Sokhna%20Penda%20Diop%20%28ar-wo%29",
+                    "name": "Jawàbu Sokhna Penda Diop (ar-wo)"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 23,
+                    "url": "http://localhost/index.php?book=Jazbatus%20Sigh%C3%A0r%20%28ar-wo%29",
+                    "name": "Jazbatus Sighàr (ar-wo)"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 24,
+                    "url": "http://localhost/index.php?book=Jazbul%20Xul%C3%B9b%20%28ar-wo%29",
+                    "name": "Jazbul Xulùb (ar-wo)"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 25,
+                    "url": "http://localhost/index.php?book=J%C3%A0libatul%20Bur%C3%B9r%20%28ar-wo%29",
+                    "name": "Jàlibatul Burùr (ar-wo)"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 26,
+                    "url": "http://localhost/index.php?book=Kun%20K%C3%A0timan%20%28ar-wo%29",
+                    "name": "Kun Kàtiman (ar-wo)"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 27,
+                    "url": "http://localhost/index.php?book=Lakhdary%20%28ar-wo%29",
+                    "name": "Lakhdary (ar-wo)"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 28,
+                    "url": "http://localhost/index.php?book=Le%20Saint%20Coran%20en%20francais%20%28fr-fr%29",
+                    "name": "Le Saint Coran en francais (fr-fr)"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 29,
+                    "url": "http://localhost/index.php?book=Magh%C3%A0likhun%20Nir%C3%A0n%20%28ar-wo%29",
+                    "name": "Maghàlikhun Niràn (ar-wo)"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 30,
+                    "url": "http://localhost/index.php?book=Majmahun%20N%C3%B9rayni%20%28ar-wo%29",
+                    "name": "Majmahun Nùrayni (ar-wo)"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 31,
+                    "url": "http://localhost/index.php?book=Majm%C3%B9hatun%20%28ar-wo%29",
+                    "name": "Majmùhatun (ar-wo)"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 32,
+                    "url": "http://localhost/index.php?book=Mas%C3%A0likul%20Jin%C3%A0n%20%28ar-wo%29",
+                    "name": "Masàlikul Jinàn (ar-wo)"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 33,
+                    "url": "http://localhost/index.php?book=Maw%C3%A0hibul%20Xudd%C3%B9s%20%28ar-wo%29",
+                    "name": "Mawàhibul Xuddùs (ar-wo)"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 34,
+                    "url": "http://localhost/index.php?book=Maw%C3%A0hibun%20N%C3%A0fih%20%28ar-wo%29",
+                    "name": "Mawàhibun Nàfih (ar-wo)"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 35,
+                    "url": "http://localhost/index.php?book=Mulayyinus%20Sud%C3%B9r%20%28ar-wo%29",
+                    "name": "Mulayyinus Sudùr (ar-wo)"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 36,
+                    "url": "http://localhost/index.php?book=Munawwirus%20Sud%C3%B9r%20%28ar-wo%29",
+                    "name": "Munawwirus Sudùr (ar-wo)"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 37,
+                    "url": "http://localhost/index.php?book=Muxaddam%C3%A0tul%20Amd%C3%A0h%20%28ar-wo%29",
+                    "name": "Muxaddamàtul Amdàh (ar-wo)"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 38,
+                    "url": "http://localhost/index.php?book=Muxtasar%20Xal%C3%ACl%20%28ar-wo%29",
+                    "name": "Muxtasar Xalìl (ar-wo)"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 39,
+                    "url": "http://localhost/index.php?book=Naf%C3%A0-isud%20Durari%20%28ar-wo%29",
+                    "name": "Nafà-isud Durari (ar-wo)"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 40,
+                    "url": "http://localhost/index.php?book=Nahju%20Xad%C3%A0-il%20H%C3%A0j%20%28ar-wo%29",
+                    "name": "Nahju Xadà-il Hàj (ar-wo)"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 41,
+                    "url": "http://localhost/index.php?book=Ris%C3%A0la%20%28ar-wo%29",
+                    "name": "Risàla (ar-wo)"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 42,
+                    "url": "http://localhost/index.php?book=Riy%C3%A0dus%20S%C3%A0lih%C3%ACna%20%28ar-wo%29",
+                    "name": "Riyàdus Sàlihìna (ar-wo)"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 43,
+                    "url": "http://localhost/index.php?book=R%C3%A0-iya%20%28ar-wo%29",
+                    "name": "Rà-iya (ar-wo)"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 44,
+                    "url": "http://localhost/index.php?book=Silkul%20Jaw%C3%A0hir%20%28ar-wo%29",
+                    "name": "Silkul Jawàhir (ar-wo)"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 45,
+                    "url": "http://localhost/index.php?book=Tazawwudus%20Shubb%C3%A0n%20%28ar-wo%29",
+                    "name": "Tazawwudus Shubbàn (ar-wo)"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 46,
+                    "url": "http://localhost/index.php?book=Tazawwudus%20Six%C3%A0r%20%28ar-wo%29",
+                    "name": "Tazawwudus Sixàr (ar-wo)"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 47,
+                    "url": "http://localhost/index.php?book=Tazawwudus%20six%C3%A0r%20%28wo-wo%29",
+                    "name": "Tazawwudus sixàr (wo-wo)"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 48,
+                    "url": "http://localhost/index.php?book=Z%C3%A0du%20Zawit%20Tahallumi%20%28ar-wo%29",
+                    "name": "Zàdu Zawit Tahallumi (ar-wo)"
+                }
+            ]
+        },
+        {
+            "@type": "Book",
+            "name": "Ad Dàliyatu (ar-wo)",
+            "alternateName": "القصيدة الدالية",
+            "url": "http://localhost/index.php?book=Ad%20D%C3%A0liyatu%20%28ar-wo%29",
+            "inLanguage": "ar",
+            "author": {
+                "@type": "Person",
+                "name": "Cheikh Ahmadou Bamba"
+            },
+            "translator": {
+                "@type": "Person",
+                "name": "Cheikh Abdou Rahmane Mbacké"
+            },
+            "abridged": false,
+            "bookFormat": "https://schema.org/EBook",
+            "numberOfPages": 68,
+            "description": "Ad Dàliyatu (ar-wo), ouvrage de Cheikh Ahmadou Bamba en arabe traduit en wolof avec traduction audio synchronisee par Cheikh Abdou Rahmane Mbacké sur Plateforme de Formation Bamba.",
+            "image": "http://localhost/assets/images/logos/logo2.png",
+            "publisher": {
+                "@type": "Organization",
+                "name": "Plateforme de Formation Bamba"
+            }
+        },
+        {
+            "@type": "Book",
+            "name": "Al Burdatu (ar-wo)",
+            "alternateName": "البردة",
+            "url": "http://localhost/index.php?book=Al%20Burdatu%20%28ar-wo%29",
+            "inLanguage": "ar",
+            "author": {
+                "@type": "Person",
+                "name": "Cheikh Ahmadou Bamba"
+            },
+            "translator": {
+                "@type": "Person",
+                "name": "Cheikh Abdou Rahmane Mbacké"
+            },
+            "abridged": false,
+            "bookFormat": "https://schema.org/EBook",
+            "numberOfPages": 36,
+            "description": "Al Burdatu (ar-wo), ouvrage de Cheikh Ahmadou Bamba en arabe traduit en wolof avec traduction audio synchronisee par Cheikh Abdou Rahmane Mbacké sur Plateforme de Formation Bamba.",
+            "image": "http://localhost/assets/images/logos/logo2.png",
+            "publisher": {
+                "@type": "Organization",
+                "name": "Plateforme de Formation Bamba"
+            }
+        },
+        {
+            "@type": "Book",
+            "name": "Al Hamziyya (ar-wo)",
+            "alternateName": "القصيدة الهمزية",
+            "url": "http://localhost/index.php?book=Al%20Hamziyya%20%28ar-wo%29",
+            "inLanguage": "ar",
+            "author": {
+                "@type": "Person",
+                "name": "Cheikh Ahmadou Bamba"
+            },
+            "translator": {
+                "@type": "Person",
+                "name": "Cheikh Abdou Rahmane Mbacké"
+            },
+            "abridged": false,
+            "bookFormat": "https://schema.org/EBook",
+            "numberOfPages": 57,
+            "description": "Al Hamziyya (ar-wo), ouvrage de Cheikh Ahmadou Bamba en arabe traduit en wolof avec traduction audio synchronisee par Cheikh Abdou Rahmane Mbacké sur Plateforme de Formation Bamba.",
+            "image": "http://localhost/assets/images/logos/logo2.png",
+            "publisher": {
+                "@type": "Organization",
+                "name": "Plateforme de Formation Bamba"
+            }
+        },
+        {
+            "@type": "Book",
+            "name": "Al Hashmàwiyou (ar-wo)",
+            "alternateName": "العشماوية",
+            "url": "http://localhost/index.php?book=Al%20Hashm%C3%A0wiyou%20%28ar-wo%29",
+            "inLanguage": "ar",
+            "author": {
+                "@type": "Person",
+                "name": "Cheikh Ahmadou Bamba"
+            },
+            "translator": {
+                "@type": "Person",
+                "name": "Cheikh Abdou Rahman Mbacké"
+            },
+            "abridged": false,
+            "bookFormat": "https://schema.org/EBook",
+            "numberOfPages": 39,
+            "description": "Al Hashmàwiyou (ar-wo), ouvrage de Cheikh Ahmadou Bamba en arabe traduit en wolof avec traduction audio synchronisee par Cheikh Abdou Rahman Mbacké sur Plateforme de Formation Bamba.",
+            "image": "http://localhost/assets/images/logos/logo2.png",
+            "publisher": {
+                "@type": "Organization",
+                "name": "Plateforme de Formation Bamba"
+            }
+        },
+        {
+            "@type": "Book",
+            "name": "Al Inshà Us Sahìh 1 (ar-wo)",
+            "alternateName": "الإنشاء الصحيح 1",
+            "url": "http://localhost/index.php?book=Al%20Insh%C3%A0%20Us%20Sah%C3%ACh%201%20%28ar-wo%29",
+            "inLanguage": "ar",
+            "author": {
+                "@type": "Person",
+                "name": "Cheikh Ahmadou Bamba"
+            },
+            "translator": {
+                "@type": "Person",
+                "name": "Cheikh Abdou Rahmane Mbacké"
+            },
+            "abridged": false,
+            "bookFormat": "https://schema.org/EBook",
+            "numberOfPages": 29,
+            "description": "Al Inshà Us Sahìh 1 (ar-wo), ouvrage de Cheikh Ahmadou Bamba en arabe traduit en wolof avec traduction audio synchronisee par Cheikh Abdou Rahmane Mbacké sur Plateforme de Formation Bamba.",
+            "image": "http://localhost/assets/images/logos/logo2.png",
+            "publisher": {
+                "@type": "Organization",
+                "name": "Plateforme de Formation Bamba"
+            }
+        },
+        {
+            "@type": "Book",
+            "name": "Al Inshà Us Sahìh 2 (ar-wo)",
+            "alternateName": "الإنشاء الصحيح 2",
+            "url": "http://localhost/index.php?book=Al%20Insh%C3%A0%20Us%20Sah%C3%ACh%202%20%28ar-wo%29",
+            "inLanguage": "ar",
+            "author": {
+                "@type": "Person",
+                "name": "Cheikh Ahmadou Bamba"
+            },
+            "translator": {
+                "@type": "Person",
+                "name": "Cheikh Abdou Rahmane Mbacké"
+            },
+            "abridged": false,
+            "bookFormat": "https://schema.org/EBook",
+            "numberOfPages": 99,
+            "description": "Al Inshà Us Sahìh 2 (ar-wo), ouvrage de Cheikh Ahmadou Bamba en arabe traduit en wolof avec traduction audio synchronisee par Cheikh Abdou Rahmane Mbacké sur Plateforme de Formation Bamba.",
+            "image": "http://localhost/assets/images/logos/logo2.png",
+            "publisher": {
+                "@type": "Organization",
+                "name": "Plateforme de Formation Bamba"
+            }
+        },
+        {
+            "@type": "Book",
+            "name": "An Nahwul Wàdih ِ1 (ar-wo)",
+            "alternateName": "النحو الواضح 1",
+            "url": "http://localhost/index.php?book=An%20Nahwul%20W%C3%A0dih%20%D9%901%20%28ar-wo%29",
+            "inLanguage": "ar",
+            "author": {
+                "@type": "Person",
+                "name": "Cheikh Ahmadou Bamba"
+            },
+            "translator": {
+                "@type": "Person",
+                "name": "Cheikh Abdou Rahmane Mbacké"
+            },
+            "abridged": false,
+            "bookFormat": "https://schema.org/EBook",
+            "numberOfPages": 58,
+            "description": "An Nahwul Wàdih ِ1 (ar-wo), ouvrage de Cheikh Ahmadou Bamba en arabe traduit en wolof avec traduction audio synchronisee par Cheikh Abdou Rahmane Mbacké sur Plateforme de Formation Bamba.",
+            "image": "http://localhost/assets/images/logos/logo2.png",
+            "publisher": {
+                "@type": "Organization",
+                "name": "Plateforme de Formation Bamba"
+            }
+        },
+        {
+            "@type": "Book",
+            "name": "An Nahwul Wàdih ِ2 (ar-wo)",
+            "alternateName": "النحو الواضح 2",
+            "url": "http://localhost/index.php?book=An%20Nahwul%20W%C3%A0dih%20%D9%902%20%28ar-wo%29",
+            "inLanguage": "ar",
+            "author": {
+                "@type": "Person",
+                "name": "Cheikh Ahmadou Bamba"
+            },
+            "translator": {
+                "@type": "Person",
+                "name": "Cheikh Abdou Rahmane Mbacké"
+            },
+            "abridged": false,
+            "bookFormat": "https://schema.org/EBook",
+            "numberOfPages": 112,
+            "description": "An Nahwul Wàdih ِ2 (ar-wo), ouvrage de Cheikh Ahmadou Bamba en arabe traduit en wolof avec traduction audio synchronisee par Cheikh Abdou Rahmane Mbacké sur Plateforme de Formation Bamba.",
+            "image": "http://localhost/assets/images/logos/logo2.png",
+            "publisher": {
+                "@type": "Organization",
+                "name": "Plateforme de Formation Bamba"
+            }
+        },
+        {
+            "@type": "Book",
+            "name": "Arbahùna Hadìth (ar-wo)",
+            "alternateName": "الأربعون النووية",
+            "url": "http://localhost/index.php?book=Arbah%C3%B9na%20Had%C3%ACth%20%28ar-wo%29",
+            "inLanguage": "ar",
+            "author": {
+                "@type": "Person",
+                "name": "Cheikh Ahmadou Bamba"
+            },
+            "translator": {
+                "@type": "Person",
+                "name": "Cheikh Abdou Rahmane Mbacké"
+            },
+            "abridged": false,
+            "bookFormat": "https://schema.org/EBook",
+            "numberOfPages": 49,
+            "description": "Arbahùna Hadìth (ar-wo), ouvrage de Cheikh Ahmadou Bamba en arabe traduit en wolof avec traduction audio synchronisee par Cheikh Abdou Rahmane Mbacké sur Plateforme de Formation Bamba.",
+            "image": "http://localhost/assets/images/logos/logo2.png",
+            "publisher": {
+                "@type": "Organization",
+                "name": "Plateforme de Formation Bamba"
+            }
+        },
+        {
+            "@type": "Book",
+            "name": "Ashalul Masàlik (ar-wo)",
+            "alternateName": "أسهل المسالك",
+            "url": "http://localhost/index.php?book=Ashalul%20Mas%C3%A0lik%20%28ar-wo%29",
+            "inLanguage": "ar",
+            "author": {
+                "@type": "Person",
+                "name": "Cheikh Ahmadou Bamba"
+            },
+            "translator": {
+                "@type": "Person",
+                "name": "Cheikh Abdou Rahmane Mbacké"
+            },
+            "abridged": false,
+            "bookFormat": "https://schema.org/EBook",
+            "numberOfPages": 234,
+            "description": "Ashalul Masàlik (ar-wo), ouvrage de Cheikh Ahmadou Bamba en arabe traduit en wolof avec traduction audio synchronisee par Cheikh Abdou Rahmane Mbacké sur Plateforme de Formation Bamba.",
+            "image": "http://localhost/assets/images/logos/logo2.png",
+            "publisher": {
+                "@type": "Organization",
+                "name": "Plateforme de Formation Bamba"
+            }
+        },
+        {
+            "@type": "Book",
+            "name": "Fathul Mannàn (ar-wo)",
+            "alternateName": "فتح المنان فى جواب عبد الرحمان",
+            "url": "http://localhost/index.php?book=Fathul%20Mann%C3%A0n%20%28ar-wo%29",
+            "inLanguage": "ar",
+            "author": {
+                "@type": "Person",
+                "name": "Cheikh Ahmadou Bamba"
+            },
+            "translator": {
+                "@type": "Person",
+                "name": "Cheikh Abdou Rahman Mbacké"
+            },
+            "abridged": false,
+            "bookFormat": "https://schema.org/EBook",
+            "numberOfPages": 20,
+            "description": "Fathul Mannàn (ar-wo), ouvrage de Cheikh Ahmadou Bamba en arabe traduit en wolof avec traduction audio synchronisee par Cheikh Abdou Rahman Mbacké sur Plateforme de Formation Bamba.",
+            "image": "http://localhost/assets/images/logos/logo2.png",
+            "publisher": {
+                "@type": "Organization",
+                "name": "Plateforme de Formation Bamba"
+            }
+        },
+        {
+            "@type": "Book",
+            "name": "Faydul Ghaniyyil Mughnì (ar-wo)",
+            "alternateName": "فيض الغني المغنى",
+            "url": "http://localhost/index.php?book=Faydul%20Ghaniyyil%20Mughn%C3%AC%20%28ar-wo%29",
+            "inLanguage": "ar",
+            "author": {
+                "@type": "Person",
+                "name": "Cheikh Ahmadou Bamba"
+            },
+            "translator": {
+                "@type": "Person",
+                "name": "Cheikh Abdou Rahman Mbacké"
+            },
+            "abridged": false,
+            "bookFormat": "https://schema.org/EBook",
+            "numberOfPages": 25,
+            "description": "Faydul Ghaniyyil Mughnì (ar-wo), ouvrage de Cheikh Ahmadou Bamba en arabe traduit en wolof avec traduction audio synchronisee par Cheikh Abdou Rahman Mbacké sur Plateforme de Formation Bamba.",
+            "image": "http://localhost/assets/images/logos/logo2.png",
+            "publisher": {
+                "@type": "Organization",
+                "name": "Plateforme de Formation Bamba"
+            }
+        },
+        {
+            "@type": "Book",
+            "name": "Holly Coran in English (en-en)",
+            "url": "http://localhost/index.php?book=Holly%20Coran%20in%20English%20%28en-en%29",
+            "inLanguage": "en",
+            "author": {
+                "@type": "Person",
+                "name": "Book of GOD"
+            },
+            "abridged": false,
+            "bookFormat": "https://schema.org/EBook",
+            "numberOfPages": 254,
+            "description": "Holly Coran in English (en-en), ouvrage de Book of GOD en anglais traduit en anglais avec traduction audio synchronisee par la plateforme sur Plateforme de Formation Bamba.",
+            "image": "http://localhost/assets/images/logos/logo2.png",
+            "publisher": {
+                "@type": "Organization",
+                "name": "Plateforme de Formation Bamba"
+            }
+        },
+        {
+            "@type": "Book",
+            "name": "Huqal Bukà-u (ar-wo)",
+            "alternateName": "حق البكآء",
+            "url": "http://localhost/index.php?book=Huqal%20Buk%C3%A0-u%20%28ar-wo%29",
+            "inLanguage": "ar",
+            "author": {
+                "@type": "Person",
+                "name": "Cheikh Ahmadou Bamba"
+            },
+            "translator": {
+                "@type": "Person",
+                "name": "Cheikh Abdou Rahman Mbacké"
+            },
+            "abridged": false,
+            "bookFormat": "https://schema.org/EBook",
+            "numberOfPages": 16,
+            "description": "Huqal Bukà-u (ar-wo), ouvrage de Cheikh Ahmadou Bamba en arabe traduit en wolof avec traduction audio synchronisee par Cheikh Abdou Rahman Mbacké sur Plateforme de Formation Bamba.",
+            "image": "http://localhost/assets/images/logos/logo2.png",
+            "publisher": {
+                "@type": "Organization",
+                "name": "Plateforme de Formation Bamba"
+            }
+        },
+        {
+            "@type": "Book",
+            "name": "Hàma Shahidnà Bikaramin (ar-wo)",
+            "alternateName": "عام شهدنا بكرم",
+            "url": "http://localhost/index.php?book=H%C3%A0ma%20Shahidn%C3%A0%20Bikaramin%20%28ar-wo%29",
+            "inLanguage": "ar",
+            "author": {
+                "@type": "Person",
+                "name": "Cheikh Ahmadou Bamba"
+            },
+            "translator": {
+                "@type": "Person",
+                "name": "Cheikh Abdou Rahman Mbacké"
+            },
+            "abridged": false,
+            "bookFormat": "https://schema.org/EBook",
+            "numberOfPages": 4,
+            "description": "Hàma Shahidnà Bikaramin (ar-wo), ouvrage de Cheikh Ahmadou Bamba en arabe traduit en wolof avec traduction audio synchronisee par Cheikh Abdou Rahman Mbacké sur Plateforme de Formation Bamba.",
+            "image": "http://localhost/assets/images/logos/logo2.png",
+            "publisher": {
+                "@type": "Organization",
+                "name": "Plateforme de Formation Bamba"
+            }
+        },
+        {
+            "@type": "Book",
+            "name": "Ibnu Duraydi (ar-wo)",
+            "alternateName": "مقصورة ابن دريد",
+            "url": "http://localhost/index.php?book=Ibnu%20Duraydi%20%28ar-wo%29",
+            "inLanguage": "ar",
+            "author": {
+                "@type": "Person",
+                "name": "Cheikh Ahmadou Bamba"
+            },
+            "translator": {
+                "@type": "Person",
+                "name": "Cheikh Abdou Rahmane Mbacké"
+            },
+            "abridged": false,
+            "bookFormat": "https://schema.org/EBook",
+            "numberOfPages": 34,
+            "description": "Ibnu Duraydi (ar-wo), ouvrage de Cheikh Ahmadou Bamba en arabe traduit en wolof avec traduction audio synchronisee par Cheikh Abdou Rahmane Mbacké sur Plateforme de Formation Bamba.",
+            "image": "http://localhost/assets/images/logos/logo2.png",
+            "publisher": {
+                "@type": "Organization",
+                "name": "Plateforme de Formation Bamba"
+            }
+        },
+        {
+            "@type": "Book",
+            "name": "Ibnu Hàsir (ar-wo)",
+            "alternateName": "إبن عاشر",
+            "url": "http://localhost/index.php?book=Ibnu%20H%C3%A0sir%20%28ar-wo%29",
+            "inLanguage": "ar",
+            "author": {
+                "@type": "Person",
+                "name": "Cheikh Ahmadou Bamba"
+            },
+            "translator": {
+                "@type": "Person",
+                "name": "Cheikh Abdou Rahmane Mbacké"
+            },
+            "abridged": false,
+            "bookFormat": "https://schema.org/EBook",
+            "numberOfPages": 52,
+            "description": "Ibnu Hàsir (ar-wo), ouvrage de Cheikh Ahmadou Bamba en arabe traduit en wolof avec traduction audio synchronisee par Cheikh Abdou Rahmane Mbacké sur Plateforme de Formation Bamba.",
+            "image": "http://localhost/assets/images/logos/logo2.png",
+            "publisher": {
+                "@type": "Organization",
+                "name": "Plateforme de Formation Bamba"
+            }
+        },
+        {
+            "@type": "Book",
+            "name": "Ilhamul Wadùd (ar-wo)",
+            "alternateName": "إلهام الودود",
+            "url": "http://localhost/index.php?book=Ilhamul%20Wad%C3%B9d%20%28ar-wo%29",
+            "inLanguage": "ar",
+            "author": {
+                "@type": "Person",
+                "name": "Cheikh Ahmadou Bamba"
+            },
+            "translator": {
+                "@type": "Person",
+                "name": "Cheikh Abdou Rahman Mbacké"
+            },
+            "abridged": false,
+            "bookFormat": "https://schema.org/EBook",
+            "numberOfPages": 12,
+            "description": "Ilhamul Wadùd (ar-wo), ouvrage de Cheikh Ahmadou Bamba en arabe traduit en wolof avec traduction audio synchronisee par Cheikh Abdou Rahman Mbacké sur Plateforme de Formation Bamba.",
+            "image": "http://localhost/assets/images/logos/logo2.png",
+            "publisher": {
+                "@type": "Organization",
+                "name": "Plateforme de Formation Bamba"
+            }
+        },
+        {
+            "@type": "Book",
+            "name": "Ilhàmus Salàm (ar-wo)",
+            "alternateName": "إلهام السلام",
+            "url": "http://localhost/index.php?book=Ilh%C3%A0mus%20Sal%C3%A0m%20%28ar-wo%29",
+            "inLanguage": "ar",
+            "author": {
+                "@type": "Person",
+                "name": "Cheikh Ahmadou Bamba"
+            },
+            "translator": {
+                "@type": "Person",
+                "name": "Cheikh Abdou Rahman Mbacké"
+            },
+            "abridged": false,
+            "bookFormat": "https://schema.org/EBook",
+            "numberOfPages": 8,
+            "description": "Ilhàmus Salàm (ar-wo), ouvrage de Cheikh Ahmadou Bamba en arabe traduit en wolof avec traduction audio synchronisee par Cheikh Abdou Rahman Mbacké sur Plateforme de Formation Bamba.",
+            "image": "http://localhost/assets/images/logos/logo2.png",
+            "publisher": {
+                "@type": "Organization",
+                "name": "Plateforme de Formation Bamba"
+            }
+        },
+        {
+            "@type": "Book",
+            "name": "Jawharun Nafìs (ar-wo)",
+            "alternateName": "الجوهر النفيس",
+            "url": "http://localhost/index.php?book=Jawharun%20Naf%C3%ACs%20%28ar-wo%29",
+            "inLanguage": "ar",
+            "author": {
+                "@type": "Person",
+                "name": "Cheikh Ahmadou Bamba"
+            },
+            "translator": {
+                "@type": "Person",
+                "name": "Cheikh Abdou Rahman Mbacké"
+            },
+            "abridged": false,
+            "bookFormat": "https://schema.org/EBook",
+            "numberOfPages": 58,
+            "description": "Jawharun Nafìs (ar-wo), ouvrage de Cheikh Ahmadou Bamba en arabe traduit en wolof avec traduction audio synchronisee par Cheikh Abdou Rahman Mbacké sur Plateforme de Formation Bamba.",
+            "image": "http://localhost/assets/images/logos/logo2.png",
+            "publisher": {
+                "@type": "Organization",
+                "name": "Plateforme de Formation Bamba"
+            }
+        },
+        {
+            "@type": "Book",
+            "name": "Jawàbu Serign Pakala (ar-wo)",
+            "alternateName": "جواب سرج بكل",
+            "url": "http://localhost/index.php?book=Jaw%C3%A0bu%20Serign%20Pakala%20%28ar-wo%29",
+            "inLanguage": "ar",
+            "author": {
+                "@type": "Person",
+                "name": "Cheikh Ahmadou Bamba"
+            },
+            "translator": {
+                "@type": "Person",
+                "name": "Cheikh Abdou Rahman Mbacké"
+            },
+            "abridged": false,
+            "bookFormat": "https://schema.org/EBook",
+            "numberOfPages": 18,
+            "description": "Jawàbu Serign Pakala (ar-wo), ouvrage de Cheikh Ahmadou Bamba en arabe traduit en wolof avec traduction audio synchronisee par Cheikh Abdou Rahman Mbacké sur Plateforme de Formation Bamba.",
+            "image": "http://localhost/assets/images/logos/logo2.png",
+            "publisher": {
+                "@type": "Organization",
+                "name": "Plateforme de Formation Bamba"
+            }
+        },
+        {
+            "@type": "Book",
+            "name": "Jawàbu Sokhna Penda Diop (ar-wo)",
+            "alternateName": "جواب سخن بند جوب",
+            "url": "http://localhost/index.php?book=Jaw%C3%A0bu%20Sokhna%20Penda%20Diop%20%28ar-wo%29",
+            "inLanguage": "ar",
+            "author": {
+                "@type": "Person",
+                "name": "Cheikh Ahmadou Bamba"
+            },
+            "translator": {
+                "@type": "Person",
+                "name": "Cheikh Abdou Rahman Mbacké"
+            },
+            "abridged": false,
+            "bookFormat": "https://schema.org/EBook",
+            "numberOfPages": 1,
+            "description": "Jawàbu Sokhna Penda Diop (ar-wo), ouvrage de Cheikh Ahmadou Bamba en arabe traduit en wolof avec traduction audio synchronisee par Cheikh Abdou Rahman Mbacké sur Plateforme de Formation Bamba.",
+            "image": "http://localhost/assets/images/logos/logo2.png",
+            "publisher": {
+                "@type": "Organization",
+                "name": "Plateforme de Formation Bamba"
+            }
+        },
+        {
+            "@type": "Book",
+            "name": "Jazbatus Sighàr (ar-wo)",
+            "alternateName": "جذبة الصغار",
+            "url": "http://localhost/index.php?book=Jazbatus%20Sigh%C3%A0r%20%28ar-wo%29",
+            "inLanguage": "ar",
+            "author": {
+                "@type": "Person",
+                "name": "Cheikh Ahmadou Bamba"
+            },
+            "translator": {
+                "@type": "Person",
+                "name": "Cheikh Abdou Rahmane Mbacké"
+            },
+            "abridged": false,
+            "bookFormat": "https://schema.org/EBook",
+            "numberOfPages": 19,
+            "description": "Jazbatus Sighàr (ar-wo), ouvrage de Cheikh Ahmadou Bamba en arabe traduit en wolof avec traduction audio synchronisee par Cheikh Abdou Rahmane Mbacké sur Plateforme de Formation Bamba.",
+            "image": "http://localhost/assets/images/logos/logo2.png",
+            "publisher": {
+                "@type": "Organization",
+                "name": "Plateforme de Formation Bamba"
+            }
+        },
+        {
+            "@type": "Book",
+            "name": "Jazbul Xulùb (ar-wo)",
+            "alternateName": "جذب القلوب",
+            "url": "http://localhost/index.php?book=Jazbul%20Xul%C3%B9b%20%28ar-wo%29",
+            "inLanguage": "ar",
+            "author": {
+                "@type": "Person",
+                "name": "Cheikh Ahmadou Bamba"
+            },
+            "translator": {
+                "@type": "Person",
+                "name": "Cheikh Abdou Rahman Mbacké"
+            },
+            "abridged": false,
+            "bookFormat": "https://schema.org/EBook",
+            "numberOfPages": 37,
+            "description": "Jazbul Xulùb (ar-wo), ouvrage de Cheikh Ahmadou Bamba en arabe traduit en wolof avec traduction audio synchronisee par Cheikh Abdou Rahman Mbacké sur Plateforme de Formation Bamba.",
+            "image": "http://localhost/assets/images/logos/logo2.png",
+            "publisher": {
+                "@type": "Organization",
+                "name": "Plateforme de Formation Bamba"
+            }
+        },
+        {
+            "@type": "Book",
+            "name": "Jàlibatul Burùr (ar-wo)",
+            "alternateName": "جالبة البرور ودافعة الغرور",
+            "url": "http://localhost/index.php?book=J%C3%A0libatul%20Bur%C3%B9r%20%28ar-wo%29",
+            "inLanguage": "ar",
+            "author": {
+                "@type": "Person",
+                "name": "Cheikh Ahmadou Bamba"
+            },
+            "translator": {
+                "@type": "Person",
+                "name": "Cheikh Abdou Rahman Mbacké"
+            },
+            "abridged": false,
+            "bookFormat": "https://schema.org/EBook",
+            "numberOfPages": 11,
+            "description": "Jàlibatul Burùr (ar-wo), ouvrage de Cheikh Ahmadou Bamba en arabe traduit en wolof avec traduction audio synchronisee par Cheikh Abdou Rahman Mbacké sur Plateforme de Formation Bamba.",
+            "image": "http://localhost/assets/images/logos/logo2.png",
+            "publisher": {
+                "@type": "Organization",
+                "name": "Plateforme de Formation Bamba"
+            }
+        },
+        {
+            "@type": "Book",
+            "name": "Kun Kàtiman (ar-wo)",
+            "alternateName": "كن كاتما",
+            "url": "http://localhost/index.php?book=Kun%20K%C3%A0timan%20%28ar-wo%29",
+            "inLanguage": "ar",
+            "author": {
+                "@type": "Person",
+                "name": "Cheikh Ahmadou Bamba"
+            },
+            "translator": {
+                "@type": "Person",
+                "name": "Cheikh Abdou Rahman Mbacké"
+            },
+            "abridged": false,
+            "bookFormat": "https://schema.org/EBook",
+            "numberOfPages": 2,
+            "description": "Kun Kàtiman (ar-wo), ouvrage de Cheikh Ahmadou Bamba en arabe traduit en wolof avec traduction audio synchronisee par Cheikh Abdou Rahman Mbacké sur Plateforme de Formation Bamba.",
+            "image": "http://localhost/assets/images/logos/logo2.png",
+            "publisher": {
+                "@type": "Organization",
+                "name": "Plateforme de Formation Bamba"
+            }
+        },
+        {
+            "@type": "Book",
+            "name": "Lakhdary (ar-wo)",
+            "alternateName": "الأخضرى",
+            "url": "http://localhost/index.php?book=Lakhdary%20%28ar-wo%29",
+            "inLanguage": "ar",
+            "author": {
+                "@type": "Person",
+                "name": "Cheikh Ahmadou Bamba"
+            },
+            "translator": {
+                "@type": "Person",
+                "name": "Cheikh Abdou Rahmane Mbacké"
+            },
+            "abridged": false,
+            "bookFormat": "https://schema.org/EBook",
+            "numberOfPages": 120,
+            "description": "Lakhdary (ar-wo), ouvrage de Cheikh Ahmadou Bamba en arabe traduit en wolof avec traduction audio synchronisee par Cheikh Abdou Rahmane Mbacké sur Plateforme de Formation Bamba.",
+            "image": "http://localhost/assets/images/logos/logo2.png",
+            "publisher": {
+                "@type": "Organization",
+                "name": "Plateforme de Formation Bamba"
+            }
+        },
+        {
+            "@type": "Book",
+            "name": "Le Saint Coran en francais (fr-fr)",
+            "url": "http://localhost/index.php?book=Le%20Saint%20Coran%20en%20francais%20%28fr-fr%29",
+            "inLanguage": "fr",
+            "author": {
+                "@type": "Person",
+                "name": "Livre de DIEU"
+            },
+            "abridged": false,
+            "bookFormat": "https://schema.org/EBook",
+            "numberOfPages": 300,
+            "description": "Le Saint Coran en francais (fr-fr), ouvrage de Livre de DIEU en francais traduit en francais avec traduction audio synchronisee par la plateforme sur Plateforme de Formation Bamba.",
+            "image": "http://localhost/assets/images/logos/logo2.png",
+            "publisher": {
+                "@type": "Organization",
+                "name": "Plateforme de Formation Bamba"
+            }
+        },
+        {
+            "@type": "Book",
+            "name": "Maghàlikhun Niràn (ar-wo)",
+            "alternateName": "مغالق النيران",
+            "url": "http://localhost/index.php?book=Magh%C3%A0likhun%20Nir%C3%A0n%20%28ar-wo%29",
+            "inLanguage": "ar",
+            "author": {
+                "@type": "Person",
+                "name": "Cheikh Ahmadou Bamba"
+            },
+            "translator": {
+                "@type": "Person",
+                "name": "Cheikh Abdou Rahman Mbacké"
+            },
+            "abridged": false,
+            "bookFormat": "https://schema.org/EBook",
+            "numberOfPages": 26,
+            "description": "Maghàlikhun Niràn (ar-wo), ouvrage de Cheikh Ahmadou Bamba en arabe traduit en wolof avec traduction audio synchronisee par Cheikh Abdou Rahman Mbacké sur Plateforme de Formation Bamba.",
+            "image": "http://localhost/assets/images/logos/logo2.png",
+            "publisher": {
+                "@type": "Organization",
+                "name": "Plateforme de Formation Bamba"
+            }
+        },
+        {
+            "@type": "Book",
+            "name": "Majmahun Nùrayni (ar-wo)",
+            "alternateName": "مجمع النورين",
+            "url": "http://localhost/index.php?book=Majmahun%20N%C3%B9rayni%20%28ar-wo%29",
+            "inLanguage": "ar",
+            "author": {
+                "@type": "Person",
+                "name": "Cheikh Ahmadou Bamba"
+            },
+            "translator": {
+                "@type": "Person",
+                "name": "Cheikh Abdou Rahman Mbacké"
+            },
+            "abridged": false,
+            "bookFormat": "https://schema.org/EBook",
+            "numberOfPages": 58,
+            "description": "Majmahun Nùrayni (ar-wo), ouvrage de Cheikh Ahmadou Bamba en arabe traduit en wolof avec traduction audio synchronisee par Cheikh Abdou Rahman Mbacké sur Plateforme de Formation Bamba.",
+            "image": "http://localhost/assets/images/logos/logo2.png",
+            "publisher": {
+                "@type": "Organization",
+                "name": "Plateforme de Formation Bamba"
+            }
+        },
+        {
+            "@type": "Book",
+            "name": "Majmùhatun (ar-wo)",
+            "alternateName": "مجموعة",
+            "url": "http://localhost/index.php?book=Majm%C3%B9hatun%20%28ar-wo%29",
+            "inLanguage": "ar",
+            "author": {
+                "@type": "Person",
+                "name": "Cheikh Ahmadou Bamba"
+            },
+            "translator": {
+                "@type": "Person",
+                "name": "Cheikh Abdou Rahman Mbacké"
+            },
+            "abridged": false,
+            "bookFormat": "https://schema.org/EBook",
+            "numberOfPages": 332,
+            "description": "Majmùhatun (ar-wo), ouvrage de Cheikh Ahmadou Bamba en arabe traduit en wolof avec traduction audio synchronisee par Cheikh Abdou Rahman Mbacké sur Plateforme de Formation Bamba.",
+            "image": "http://localhost/assets/images/logos/logo2.png",
+            "publisher": {
+                "@type": "Organization",
+                "name": "Plateforme de Formation Bamba"
+            }
+        },
+        {
+            "@type": "Book",
+            "name": "Masàlikul Jinàn (ar-wo)",
+            "alternateName": "مسالك الجنان",
+            "url": "http://localhost/index.php?book=Mas%C3%A0likul%20Jin%C3%A0n%20%28ar-wo%29",
+            "inLanguage": "ar",
+            "author": {
+                "@type": "Person",
+                "name": "Cheikh Ahmadou Bamba"
+            },
+            "translator": {
+                "@type": "Person",
+                "name": "Cheikh Abdou Rahman Mbacké"
+            },
+            "abridged": false,
+            "bookFormat": "https://schema.org/EBook",
+            "numberOfPages": 220,
+            "description": "Masàlikul Jinàn (ar-wo), ouvrage de Cheikh Ahmadou Bamba en arabe traduit en wolof avec traduction audio synchronisee par Cheikh Abdou Rahman Mbacké sur Plateforme de Formation Bamba.",
+            "image": "http://localhost/assets/images/logos/logo2.png",
+            "publisher": {
+                "@type": "Organization",
+                "name": "Plateforme de Formation Bamba"
+            }
+        },
+        {
+            "@type": "Book",
+            "name": "Mawàhibul Xuddùs (ar-wo)",
+            "alternateName": "مواهب القدوس",
+            "url": "http://localhost/index.php?book=Maw%C3%A0hibul%20Xudd%C3%B9s%20%28ar-wo%29",
+            "inLanguage": "ar",
+            "author": {
+                "@type": "Person",
+                "name": "Cheikh Ahmadou Bamba"
+            },
+            "translator": {
+                "@type": "Person",
+                "name": "Cheikh Abdou Rahman Mbacké"
+            },
+            "abridged": false,
+            "bookFormat": "https://schema.org/EBook",
+            "numberOfPages": 83,
+            "description": "Mawàhibul Xuddùs (ar-wo), ouvrage de Cheikh Ahmadou Bamba en arabe traduit en wolof avec traduction audio synchronisee par Cheikh Abdou Rahman Mbacké sur Plateforme de Formation Bamba.",
+            "image": "http://localhost/assets/images/logos/logo2.png",
+            "publisher": {
+                "@type": "Organization",
+                "name": "Plateforme de Formation Bamba"
+            }
+        },
+        {
+            "@type": "Book",
+            "name": "Mawàhibun Nàfih (ar-wo)",
+            "alternateName": "مواهب النافع",
+            "url": "http://localhost/index.php?book=Maw%C3%A0hibun%20N%C3%A0fih%20%28ar-wo%29",
+            "inLanguage": "ar",
+            "author": {
+                "@type": "Person",
+                "name": "Cheikh Ahmadou Bamba"
+            },
+            "translator": {
+                "@type": "Person",
+                "name": "Cheikh Abdou Rahman Mbacké"
+            },
+            "abridged": false,
+            "bookFormat": "https://schema.org/EBook",
+            "numberOfPages": 36,
+            "description": "Mawàhibun Nàfih (ar-wo), ouvrage de Cheikh Ahmadou Bamba en arabe traduit en wolof avec traduction audio synchronisee par Cheikh Abdou Rahman Mbacké sur Plateforme de Formation Bamba.",
+            "image": "http://localhost/assets/images/logos/logo2.png",
+            "publisher": {
+                "@type": "Organization",
+                "name": "Plateforme de Formation Bamba"
+            }
+        },
+        {
+            "@type": "Book",
+            "name": "Mulayyinus Sudùr (ar-wo)",
+            "alternateName": "ملين الصدور",
+            "url": "http://localhost/index.php?book=Mulayyinus%20Sud%C3%B9r%20%28ar-wo%29",
+            "inLanguage": "ar",
+            "author": {
+                "@type": "Person",
+                "name": "Cheikh Ahmadou Bamba"
+            },
+            "translator": {
+                "@type": "Person",
+                "name": "Cheikh Abdou Rahman Mbacké"
+            },
+            "abridged": false,
+            "bookFormat": "https://schema.org/EBook",
+            "numberOfPages": 43,
+            "description": "Mulayyinus Sudùr (ar-wo), ouvrage de Cheikh Ahmadou Bamba en arabe traduit en wolof avec traduction audio synchronisee par Cheikh Abdou Rahman Mbacké sur Plateforme de Formation Bamba.",
+            "image": "http://localhost/assets/images/logos/logo2.png",
+            "publisher": {
+                "@type": "Organization",
+                "name": "Plateforme de Formation Bamba"
+            }
+        },
+        {
+            "@type": "Book",
+            "name": "Munawwirus Sudùr (ar-wo)",
+            "alternateName": "منور الصدور",
+            "url": "http://localhost/index.php?book=Munawwirus%20Sud%C3%B9r%20%28ar-wo%29",
+            "inLanguage": "ar",
+            "author": {
+                "@type": "Person",
+                "name": "Cheikh Ahmadou Bamba"
+            },
+            "translator": {
+                "@type": "Person",
+                "name": "Cheikh Abdou Rahman Mbacké"
+            },
+            "abridged": false,
+            "bookFormat": "https://schema.org/EBook",
+            "numberOfPages": 24,
+            "description": "Munawwirus Sudùr (ar-wo), ouvrage de Cheikh Ahmadou Bamba en arabe traduit en wolof avec traduction audio synchronisee par Cheikh Abdou Rahman Mbacké sur Plateforme de Formation Bamba.",
+            "image": "http://localhost/assets/images/logos/logo2.png",
+            "publisher": {
+                "@type": "Organization",
+                "name": "Plateforme de Formation Bamba"
+            }
+        },
+        {
+            "@type": "Book",
+            "name": "Muxaddamàtul Amdàh (ar-wo)",
+            "alternateName": "مقدمات الأمداح",
+            "url": "http://localhost/index.php?book=Muxaddam%C3%A0tul%20Amd%C3%A0h%20%28ar-wo%29",
+            "inLanguage": "ar",
+            "author": {
+                "@type": "Person",
+                "name": "Cheikh Ahmadou Bamba"
+            },
+            "translator": {
+                "@type": "Person",
+                "name": "Cheikh Abdou Rahman Mbacké"
+            },
+            "abridged": false,
+            "bookFormat": "https://schema.org/EBook",
+            "numberOfPages": 39,
+            "description": "Muxaddamàtul Amdàh (ar-wo), ouvrage de Cheikh Ahmadou Bamba en arabe traduit en wolof avec traduction audio synchronisee par Cheikh Abdou Rahman Mbacké sur Plateforme de Formation Bamba.",
+            "image": "http://localhost/assets/images/logos/logo2.png",
+            "publisher": {
+                "@type": "Organization",
+                "name": "Plateforme de Formation Bamba"
+            }
+        },
+        {
+            "@type": "Book",
+            "name": "Muxtasar Xalìl (ar-wo)",
+            "alternateName": "مختصر خليل",
+            "url": "http://localhost/index.php?book=Muxtasar%20Xal%C3%ACl%20%28ar-wo%29",
+            "inLanguage": "ar",
+            "author": {
+                "@type": "Person",
+                "name": "Cheikh Ahmadou Bamba"
+            },
+            "translator": {
+                "@type": "Person",
+                "name": "Cheikh Abdou Rahmane Mbacké"
+            },
+            "abridged": false,
+            "bookFormat": "https://schema.org/EBook",
+            "numberOfPages": 191,
+            "description": "Muxtasar Xalìl (ar-wo), ouvrage de Cheikh Ahmadou Bamba en arabe traduit en wolof avec traduction audio synchronisee par Cheikh Abdou Rahmane Mbacké sur Plateforme de Formation Bamba.",
+            "image": "http://localhost/assets/images/logos/logo2.png",
+            "publisher": {
+                "@type": "Organization",
+                "name": "Plateforme de Formation Bamba"
+            }
+        },
+        {
+            "@type": "Book",
+            "name": "Nafà-isud Durari (ar-wo)",
+            "alternateName": "نفائس الدرر فى كلمات خير البشر",
+            "url": "http://localhost/index.php?book=Naf%C3%A0-isud%20Durari%20%28ar-wo%29",
+            "inLanguage": "ar",
+            "author": {
+                "@type": "Person",
+                "name": "Cheikh Ahmadou Bamba"
+            },
+            "translator": {
+                "@type": "Person",
+                "name": "Cheikh Abdou Rahmane Mbacké"
+            },
+            "abridged": false,
+            "bookFormat": "https://schema.org/EBook",
+            "numberOfPages": 42,
+            "description": "Nafà-isud Durari (ar-wo), ouvrage de Cheikh Ahmadou Bamba en arabe traduit en wolof avec traduction audio synchronisee par Cheikh Abdou Rahmane Mbacké sur Plateforme de Formation Bamba.",
+            "image": "http://localhost/assets/images/logos/logo2.png",
+            "publisher": {
+                "@type": "Organization",
+                "name": "Plateforme de Formation Bamba"
+            }
+        },
+        {
+            "@type": "Book",
+            "name": "Nahju Xadà-il Hàj (ar-wo)",
+            "alternateName": "نهج قضآء الحاج",
+            "url": "http://localhost/index.php?book=Nahju%20Xad%C3%A0-il%20H%C3%A0j%20%28ar-wo%29",
+            "inLanguage": "ar",
+            "author": {
+                "@type": "Person",
+                "name": "Cheikh Ahmadou Bamba"
+            },
+            "translator": {
+                "@type": "Person",
+                "name": "Cheikh Abdou Rahman Mbacké"
+            },
+            "abridged": false,
+            "bookFormat": "https://schema.org/EBook",
+            "numberOfPages": 44,
+            "description": "Nahju Xadà-il Hàj (ar-wo), ouvrage de Cheikh Ahmadou Bamba en arabe traduit en wolof avec traduction audio synchronisee par Cheikh Abdou Rahman Mbacké sur Plateforme de Formation Bamba.",
+            "image": "http://localhost/assets/images/logos/logo2.png",
+            "publisher": {
+                "@type": "Organization",
+                "name": "Plateforme de Formation Bamba"
+            }
+        },
+        {
+            "@type": "Book",
+            "name": "Risàla (ar-wo)",
+            "alternateName": "الرسالة",
+            "url": "http://localhost/index.php?book=Ris%C3%A0la%20%28ar-wo%29",
+            "inLanguage": "ar",
+            "author": {
+                "@type": "Person",
+                "name": "Cheikh Ahmadou Bamba"
+            },
+            "translator": {
+                "@type": "Person",
+                "name": "Cheikh Abdou Rahmane Mbacké"
+            },
+            "abridged": false,
+            "bookFormat": "https://schema.org/EBook",
+            "numberOfPages": 257,
+            "description": "Risàla (ar-wo), ouvrage de Cheikh Ahmadou Bamba en arabe traduit en wolof avec traduction audio synchronisee par Cheikh Abdou Rahmane Mbacké sur Plateforme de Formation Bamba.",
+            "image": "http://localhost/assets/images/logos/logo2.png",
+            "publisher": {
+                "@type": "Organization",
+                "name": "Plateforme de Formation Bamba"
+            }
+        },
+        {
+            "@type": "Book",
+            "name": "Riyàdus Sàlihìna (ar-wo)",
+            "alternateName": "رياض الصالحين",
+            "url": "http://localhost/index.php?book=Riy%C3%A0dus%20S%C3%A0lih%C3%ACna%20%28ar-wo%29",
+            "inLanguage": "ar",
+            "author": {
+                "@type": "Person",
+                "name": "Cheikh Ahmadou Bamba"
+            },
+            "translator": {
+                "@type": "Person",
+                "name": "Cheikh Abdou Rahmane Mbacké"
+            },
+            "abridged": false,
+            "bookFormat": "https://schema.org/EBook",
+            "numberOfPages": 827,
+            "description": "Riyàdus Sàlihìna (ar-wo), ouvrage de Cheikh Ahmadou Bamba en arabe traduit en wolof avec traduction audio synchronisee par Cheikh Abdou Rahmane Mbacké sur Plateforme de Formation Bamba.",
+            "image": "http://localhost/assets/images/logos/logo2.png",
+            "publisher": {
+                "@type": "Organization",
+                "name": "Plateforme de Formation Bamba"
+            }
+        },
+        {
+            "@type": "Book",
+            "name": "Rà-iya (ar-wo)",
+            "alternateName": "الرآئية",
+            "url": "http://localhost/index.php?book=R%C3%A0-iya%20%28ar-wo%29",
+            "inLanguage": "ar",
+            "author": {
+                "@type": "Person",
+                "name": "Cheikh Ahmadou Bamba"
+            },
+            "translator": {
+                "@type": "Person",
+                "name": "Cheikh Abdou Rahman Mbacké"
+            },
+            "abridged": false,
+            "bookFormat": "https://schema.org/EBook",
+            "numberOfPages": 24,
+            "description": "Rà-iya (ar-wo), ouvrage de Cheikh Ahmadou Bamba en arabe traduit en wolof avec traduction audio synchronisee par Cheikh Abdou Rahman Mbacké sur Plateforme de Formation Bamba.",
+            "image": "http://localhost/assets/images/logos/logo2.png",
+            "publisher": {
+                "@type": "Organization",
+                "name": "Plateforme de Formation Bamba"
+            }
+        },
+        {
+            "@type": "Book",
+            "name": "Silkul Jawàhir (ar-wo)",
+            "alternateName": "سلك الجواهر",
+            "url": "http://localhost/index.php?book=Silkul%20Jaw%C3%A0hir%20%28ar-wo%29",
+            "inLanguage": "ar",
+            "author": {
+                "@type": "Person",
+                "name": "Cheikh Ahmadou Bamba"
+            },
+            "translator": {
+                "@type": "Person",
+                "name": "Cheikh Abdou Rahman Mbacké"
+            },
+            "abridged": false,
+            "bookFormat": "https://schema.org/EBook",
+            "numberOfPages": 164,
+            "description": "Silkul Jawàhir (ar-wo), ouvrage de Cheikh Ahmadou Bamba en arabe traduit en wolof avec traduction audio synchronisee par Cheikh Abdou Rahman Mbacké sur Plateforme de Formation Bamba.",
+            "image": "http://localhost/assets/images/logos/logo2.png",
+            "publisher": {
+                "@type": "Organization",
+                "name": "Plateforme de Formation Bamba"
+            }
+        },
+        {
+            "@type": "Book",
+            "name": "Tazawwudus Shubbàn (ar-wo)",
+            "alternateName": "تزود الشبان",
+            "url": "http://localhost/index.php?book=Tazawwudus%20Shubb%C3%A0n%20%28ar-wo%29",
+            "inLanguage": "ar",
+            "author": {
+                "@type": "Person",
+                "name": "Cheikh Ahmadou Bamba"
+            },
+            "translator": {
+                "@type": "Person",
+                "name": "Cheikh Abdou Rahman Mbacké"
+            },
+            "abridged": false,
+            "bookFormat": "https://schema.org/EBook",
+            "numberOfPages": 99,
+            "description": "Tazawwudus Shubbàn (ar-wo), ouvrage de Cheikh Ahmadou Bamba en arabe traduit en wolof avec traduction audio synchronisee par Cheikh Abdou Rahman Mbacké sur Plateforme de Formation Bamba.",
+            "image": "http://localhost/assets/images/logos/logo2.png",
+            "publisher": {
+                "@type": "Organization",
+                "name": "Plateforme de Formation Bamba"
+            }
+        },
+        {
+            "@type": "Book",
+            "name": "Tazawwudus Sixàr (ar-wo)",
+            "alternateName": "تزود الصغار",
+            "url": "http://localhost/index.php?book=Tazawwudus%20Six%C3%A0r%20%28ar-wo%29",
+            "inLanguage": "ar",
+            "author": {
+                "@type": "Person",
+                "name": "Cheikh Ahmadou Bamba"
+            },
+            "translator": {
+                "@type": "Person",
+                "name": "Cheikh Abdou Rahman Mbacké"
+            },
+            "abridged": false,
+            "bookFormat": "https://schema.org/EBook",
+            "numberOfPages": 41,
+            "description": "Tazawwudus Sixàr (ar-wo), ouvrage de Cheikh Ahmadou Bamba en arabe traduit en wolof avec traduction audio synchronisee par Cheikh Abdou Rahman Mbacké sur Plateforme de Formation Bamba.",
+            "image": "http://localhost/assets/images/logos/logo2.png",
+            "publisher": {
+                "@type": "Organization",
+                "name": "Plateforme de Formation Bamba"
+            }
+        },
+        {
+            "@type": "Book",
+            "name": "Tazawwudus sixàr (wo-wo)",
+            "url": "http://localhost/index.php?book=Tazawwudus%20six%C3%A0r%20%28wo-wo%29",
+            "inLanguage": "wo",
+            "author": {
+                "@type": "Person",
+                "name": "Cheikh Ahmadou Bamba"
+            },
+            "abridged": false,
+            "bookFormat": "https://schema.org/EBook",
+            "numberOfPages": 12,
+            "description": "Tazawwudus sixàr (wo-wo), ouvrage de Cheikh Ahmadou Bamba en wolof traduit en wolof avec traduction audio synchronisee par la plateforme sur Plateforme de Formation Bamba.",
+            "image": "http://localhost/assets/images/logos/logo2.png",
+            "publisher": {
+                "@type": "Organization",
+                "name": "Plateforme de Formation Bamba"
+            }
+        },
+        {
+            "@type": "Book",
+            "name": "Zàdu Zawit Tahallumi (ar-wo)",
+            "alternateName": "زاد ذوى التعلم",
+            "url": "http://localhost/index.php?book=Z%C3%A0du%20Zawit%20Tahallumi%20%28ar-wo%29",
+            "inLanguage": "ar",
+            "author": {
+                "@type": "Person",
+                "name": "Cheikh Ahmadou Bamba"
+            },
+            "translator": {
+                "@type": "Person",
+                "name": "Cheikh Abdou Rahman Mbacké"
+            },
+            "abridged": false,
+            "bookFormat": "https://schema.org/EBook",
+            "numberOfPages": 13,
+            "description": "Zàdu Zawit Tahallumi (ar-wo), ouvrage de Cheikh Ahmadou Bamba en arabe traduit en wolof avec traduction audio synchronisee par Cheikh Abdou Rahman Mbacké sur Plateforme de Formation Bamba.",
+            "image": "http://localhost/assets/images/logos/logo2.png",
+            "publisher": {
+                "@type": "Organization",
+                "name": "Plateforme de Formation Bamba"
+            }
+        }
+    ]
+}
