@@ -289,11 +289,18 @@ main#content {
     text-align: center;
     margin-bottom: 20px;
 }
+#premium-header {
+    position: sticky; top: 0; padding: 0;
+    background: linear-gradient(135deg, #001f3d 0%, #003d66 100%); 
+    color: white; 
+    padding-bottom: 1px; border-bottom: 2px solid #FFD700;
+    z-index: 11;
+}
 
 /* 1. user-menu toujours collé en haut */
 #user-menu {
     position: sticky;
-    top: 0;
+    top: 20px;
     z-index: 10;
     overflow: visible;
 }

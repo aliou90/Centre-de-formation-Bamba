@@ -269,12 +269,31 @@ if (!empty($_GET['selected_book'])) {
         }
 
 
+        body {
+            position: relative;
+        }
+
+        .logout-btn {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 1.5rem;
+            text-decoration: none;
+            color: #333;
+            transition: all 0.2s ease;
+        }
+
+        .logout-btn:hover {
+            opacity: 0.7;
+        }
+
     </style>
 </head>
 <body>
 
+<a href="admin.php?logout=1" class="logout-btn" title="Se déconnecter">🔚</a>
+
 <h2>📚 Interface d'administration des livres</h2>
-<p><a href="admin.php?logout=1">Se déconnecter</a></p>
 
 <!-- Formulaire de création d'un nouveau livre -->
 <!-- Formulaire de création d'un nouveau livre -->

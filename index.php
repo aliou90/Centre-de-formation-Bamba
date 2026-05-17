@@ -180,6 +180,11 @@ if ($seoCurrentBook) {
 
 </head>
 <body>
+    <!-- Entête PREMIUM du haut au menu utilisateur contenant nom de l'app au dessus du menu utilisateur -->
+    <div id="premium-header" class="d-flex flex-column align-items-center justify-content-center" style="padding: 0px; background: linear-gradient(135deg, #001f3d 0%, #003d66 100%); color: white; border-bottom: 2px solid #FFD700;">
+        <h5 class="mb-0" style="font-size: 14px; font-weight: bold; letter-spacing: 1px;"><?= APP_NAME ?></h5>
+    </div>
+
     <header class="page-header col-10 d-flex flex-column align-items-center justify-content-center">
         <img src="./assets/images/logos/logo2.png" class="header-logo" alt="<?= htmlspecialchars(APP_NAME) ?>">
         <h1 class="text-white"><?= APP_NAME ?></h1>
@@ -189,8 +194,11 @@ if ($seoCurrentBook) {
     <button id="toggle-book-menu-btn">☰</button> <!-- Bouton pour afficher/cacher le menu -->
 
     <!-- Menu flottant - Liste des livres -->
-    <aside id="book-list" style="margin-left: 0; margin-right: 0; padding-left: 0; padding-right: 0;">
-        
+    <aside id="book-list" style="margin-left: -5px; margin-right: 0; padding-left: 0; padding-right: 0; padding-top: 0;">
+        <!-- Entête PREMIUM du haut au menu utilisateur contenant nom de l'app au dessus du menu utilisateur -->
+        <div id="premium-header" class="d-flex flex-column align-items-center justify-content-center">
+            <h4 class="mb-0" style="font-size: 14px; font-weight: bold; letter-spacing: 1px;"><?= APP_NAME ?></h4>
+        </div>
         <div id="user-menu" class="d-flex justify-content-between align-items-center" style="padding: 7px; background-color: #001f3d; color: white;">
             <?php
                 $fullname = $_SESSION['user']['fullname'] ?? '';
