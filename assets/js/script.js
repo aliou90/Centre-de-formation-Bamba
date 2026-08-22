@@ -64,6 +64,32 @@ const toggleBtn = document.getElementById('toggle-audio-panel');
 const audioContainer = document.querySelector('.audio-navigation-container');
 const arrowIcon = toggleBtn.querySelector('span');
 
+function setAudioToggleLoading(isLoading) {
+    toggleBtn.classList.toggle('is-loading', isLoading);
+    toggleBtn.setAttribute('aria-busy', String(isLoading));
+    toggleBtn.setAttribute('title', isLoading ? 'Chargement de l’audio…' : 'Afficher ou masquer le lecteur audio');
+}
+
+function watchPageImage(image) {
+    if (!image) return;
+
+    const carouselItem = image.closest('.carousel-item');
+    carouselItem?.classList.add('is-image-loading');
+
+    const stopLoading = () => carouselItem?.classList.remove('is-image-loading');
+
+    image.addEventListener('load', stopLoading, { once: true });
+    image.addEventListener('error', stopLoading, { once: true });
+
+    if (image.complete) {
+        requestAnimationFrame(stopLoading);
+    }
+}
+
+$('#carouselExample').on('slide.bs.carousel.pageLoading', function (event) {
+    watchPageImage(event.relatedTarget?.querySelector('img'));
+});
+
 toggleBtn.addEventListener('click', () => {
     audioContainer.classList.toggle('open');
     // Change l’icône
@@ -123,6 +149,7 @@ document.getElementById('toggle-orientation').addEventListener('click', () => {
 });
 
 let currentBookTitle = null;
+let activeBookLoadId = 0;
 let getedImages;
 let images = null;
 let audios = null;
@@ -305,6 +332,12 @@ function showReadingResumeModal(state) {
 }
 
 function loadBook(bookTitle, options = {}) {
+    if (bookTitle === currentBookTitle && !options.preferSavedPage) {
+        return;
+    }
+
+    const bookLoadId = ++activeBookLoadId;
+
     // Livre actuel
     currentBookTitle = bookTitle; // ✅ Suivi du livre en cours
 
@@ -315,7 +348,7 @@ function loadBook(bookTitle, options = {}) {
     }
 
     carouselInner = document.getElementById('carousel-images');
-    carouselInner.innerHTML = '';
+    carouselInner.innerHTML = '<div class="carousel-item active is-image-loading" role="status" aria-label="Chargement du livre"></div>';
 
     if (!books[currentBookTitle]) return;
 
@@ -393,6 +426,8 @@ function loadBook(bookTitle, options = {}) {
 
     // INSTANCIATION
     getUserBookAndStartIndex(currentBookTitle, images, config).then(({ startIndex, book }) => {
+        if (bookLoadId !== activeBookLoadId) return;
+
         if (options.preferSavedPage && Number.isInteger(options.resumePage)) {
             const boundedPage = Math.max(1, Math.min(images.length, options.resumePage));
             startIndex = config.lang === 'ar'
@@ -413,9 +448,10 @@ function loadBook(bookTitle, options = {}) {
 
             // Activer la page correspondante à l'index
             const activeClass = (index === startIndex) ? 'active' : '';
+            const loadingClass = (index === startIndex) ? 'is-image-loading' : '';
 
             carouselInner.innerHTML += `
-                <div class="carousel-item ${activeClass}">
+                <div class="carousel-item ${activeClass} ${loadingClass}">
                     <img src="${images[index]}" class="d-block w-100" alt="Page ${realIndex + 1}">
                     <div class="carousel-caption d-none d-md-block">
                         <h5>Page ${realIndex + 1}</h5>
@@ -423,6 +459,8 @@ function loadBook(bookTitle, options = {}) {
                 </div>
             `;
         });
+
+        watchPageImage(carouselInner.querySelector('.carousel-item.active img'));
 
         document.getElementById('pageLabel').textContent =
             `Page ${config.lang === 'ar' ? images.length - startIndex : startIndex + 1}`;
@@ -875,9 +913,7 @@ function initWaveSurfer(audioUrl, chapTimeInSec = null, bookConfig = null) {
         responsive: true,
         rtl: isArabic, // Activer le mode RTL si la langue est arabe
     });
-
-    // Charger l'audio
-    wavesurfer.load(audioUrl);
+    const currentWaveSurfer = wavesurfer;
 
     // Événement pour le bouton "Lecture/Pause"
     document.getElementById('play-pause').onclick = () => {
@@ -945,6 +981,8 @@ function initWaveSurfer(audioUrl, chapTimeInSec = null, bookConfig = null) {
 
     // Synchronisation du temps et vitesse de lecture
     wavesurfer.on('ready', () => {
+        if (wavesurfer !== currentWaveSurfer) return;
+        setAudioToggleLoading(false);
         const duration = wavesurfer.getDuration();
 
         if (duration <= 14) {
@@ -968,6 +1006,14 @@ function initWaveSurfer(audioUrl, chapTimeInSec = null, bookConfig = null) {
         // Jouer l'audio automatiquement
         wavesurfer.play();
     });
+
+    wavesurfer.on('error', () => {
+        if (wavesurfer !== currentWaveSurfer) return;
+        setAudioToggleLoading(false);
+    });
+
+    setAudioToggleLoading(true);
+    wavesurfer.load(audioUrl);
 
     // Lecture automatique du slide suivant à la fin de l'audio
     wavesurfer.on('finish', () => {

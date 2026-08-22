@@ -294,6 +294,7 @@ main#content {
     background: linear-gradient(135deg, #001f3d 0%, #003d66 100%); 
     color: white; 
     padding-bottom: 1px; border-bottom: 2px solid #FFD700;
+    border-top-right-radius: 10px; border-top-left-radius: 10px;
     z-index: 11;
 }
 
@@ -635,6 +636,15 @@ li:not([style*="display: none"]) .book-item {
     /* S'assurer que les images ne dépassent pas */
 }
 
+.carousel-item.is-image-loading {
+    min-height: 240px;
+    background: #fff url('../images/covers/processing.gif') center center / 120px no-repeat;
+}
+
+.carousel-item.is-image-loading img {
+    opacity: 0;
+}
+
 .carousel-item {
     max-height: 2800px;
     background-color: white;
@@ -693,6 +703,34 @@ li:not([style*="display: none"]) .book-item {
     cursor: pointer;
     box-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
     pointer-events: auto;
+}
+
+.toggle-arrow.is-loading {
+    cursor: wait;
+}
+
+.toggle-arrow.is-loading span {
+    visibility: hidden;
+}
+
+.toggle-arrow.is-loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 14px;
+    height: 14px;
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: audio-toggle-spin 0.7s linear infinite;
+    transform: translate(-50%, -50%);
+}
+
+@keyframes audio-toggle-spin {
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
 }
 
 .waveform-wrapper {
